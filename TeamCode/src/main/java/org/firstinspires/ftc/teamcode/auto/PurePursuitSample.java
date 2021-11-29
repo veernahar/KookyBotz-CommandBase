@@ -26,10 +26,10 @@ public class PurePursuitSample extends CommandOpMode {
     static double TICKS_TO_INCHES;
     static final double CENTER_WHEEL_OFFSET = -9;
 
-    private HolonomicOdometry m_robotOdometry;
-    private OdometrySubsystem m_odometry;
+    private HolonomicOdometry robotOdometry;
+    private OdometrySubsystem odometry;
     private PurePursuitCommand ppCommand;
-    private MecanumDrive m_robotDrive;
+    private MecanumDrive robotDrive;
     private Motor fL, fR, bL, bR;
     private MotorEx leftEncoder, rightEncoder, centerEncoder;
 
@@ -54,7 +54,7 @@ public class PurePursuitSample extends CommandOpMode {
         bR.motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // create our drive object
-        m_robotDrive = new MecanumDrive(fL, fR, bL, bR);
+        robotDrive = new MecanumDrive(fL, fR, bL, bR);
 
         leftEncoder = new MotorEx(hardwareMap, "rb");
         rightEncoder = new MotorEx(hardwareMap, "rf");
@@ -73,17 +73,17 @@ public class PurePursuitSample extends CommandOpMode {
 
 
         // create our odometry object and subsystem
-        m_robotOdometry = new HolonomicOdometry(
+        robotOdometry = new HolonomicOdometry(
                 () -> leftEncoder.getCurrentPosition() * TICKS_TO_INCHES - left,
                 () -> rightEncoder.getCurrentPosition() * TICKS_TO_INCHES - right,
                 () -> centerEncoder.getCurrentPosition() * TICKS_TO_INCHES - center,
                 TRACKWIDTH, CENTER_WHEEL_OFFSET
         );
-        m_odometry = new OdometrySubsystem(m_robotOdometry);
+        odometry = new OdometrySubsystem(robotOdometry);
 
         // create our pure pursuit command
         ppCommand = new PurePursuitCommand(
-                m_robotDrive, m_odometry,
+                robotDrive, odometry,
                 new StartWaypoint(0, 0),
                 new EndWaypoint(
                         400, 0, 0, 0.5,
@@ -98,7 +98,7 @@ public class PurePursuitSample extends CommandOpMode {
     @Override
     public void run() {
         super.run();
-        Pose2d pose = m_robotOdometry.getPose();
+        Pose2d pose = robotOdometry.getPose();
         telemetry.addLine(pose.toString());
         telemetry.update();
 

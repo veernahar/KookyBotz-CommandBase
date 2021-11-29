@@ -28,10 +28,10 @@ public class GoToPosition extends OpMode {
     static double TICKS_TO_INCHES;
     static final double CENTER_WHEEL_OFFSET = -9;
 
-    private HolonomicOdometry m_robotOdometry;
-    private OdometrySubsystem m_odometry;
+    private HolonomicOdometry robotOdometry;
+    private OdometrySubsystem odometry;
     private PurePursuitCommand ppCommand;
-    private MecanumDrive m_robotDrive;
+    private MecanumDrive robotDrive;
     private Motor fL, fR, bL, bR;
     private MotorEx leftEncoder, rightEncoder, centerEncoder;
 
@@ -58,7 +58,7 @@ public class GoToPosition extends OpMode {
         bR.motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // create our drive object
-        m_robotDrive = new MecanumDrive(fL, fR, bL, bR);
+        robotDrive = new MecanumDrive(fL, fR, bL, bR);
 
         leftEncoder = new MotorEx(hardwareMap, "rb");
         rightEncoder = new MotorEx(hardwareMap, "rf");
@@ -77,7 +77,7 @@ public class GoToPosition extends OpMode {
 
 
         // create our odometry object and subsystem
-        m_robotOdometry = new HolonomicOdometry(
+        robotOdometry = new HolonomicOdometry(
                 () -> leftEncoder.getCurrentPosition() * TICKS_TO_INCHES - left,
                 () -> rightEncoder.getCurrentPosition() * TICKS_TO_INCHES - right,
                 () -> centerEncoder.getCurrentPosition() * TICKS_TO_INCHES - center,
@@ -87,9 +87,9 @@ public class GoToPosition extends OpMode {
 
     @Override
     public void loop() {
-        m_robotOdometry.updatePose();
+        robotOdometry.updatePose();
 
-        Pose2d pose = m_robotOdometry.getPose();
+        Pose2d pose = robotOdometry.getPose();
 
         double xPower = (target.getX() - pose.getX()) / 12;
         double yPower = (target.getY() - pose.getY()) / 12;
@@ -100,7 +100,7 @@ public class GoToPosition extends OpMode {
         telemetry.addLine(String.format(Locale.ENGLISH, "%.2f %.2f %.2f", xPower, yPower, txPower));
         telemetry.update();
 
-        m_robotDrive.driveRobotCentric(yPower, xPower, txPower);
+        robotDrive.driveRobotCentric(yPower, xPower, txPower);
 
         TelemetryPacket packet = new TelemetryPacket();
         packet.fieldOverlay().setStroke("red").setFill("red").fillCircle(pose.getX(), pose.getY(), 9);

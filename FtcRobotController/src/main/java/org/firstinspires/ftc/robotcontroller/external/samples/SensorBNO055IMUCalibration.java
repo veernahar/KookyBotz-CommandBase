@@ -57,7 +57,7 @@ import java.util.Locale;
  * results persistently, then loading them again at each run can help reduce the time that automatic
  * calibration requires.</p>
  *
- * <p>This summary of the calibration process, from <a href="http://iotdk.intel.com/docs/master/upm/classupm_1_1_b_n_o055.html">
+ * <p>This summary of the calibration process, from <a href="http://iotdk.intel.com/docs/master/upm/classup1_1_b_n_o055.html">
  * Intel</a>, is informative:</p>
  *
  * <p>"This device requires calibration in order to operate accurately. [...] Calibration data is

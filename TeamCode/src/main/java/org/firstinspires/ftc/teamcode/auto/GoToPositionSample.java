@@ -17,8 +17,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-import org.firstinspires.ftc.teamcode.common.commandbase.command.GoToPositionCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.HoldPositionCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.drivecommand.GoToPositionCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.drivecommand.HoldPositionCommand;
 
 @Autonomous
 public class GoToPositionSample extends CommandOpMode {
@@ -29,11 +29,11 @@ public class GoToPositionSample extends CommandOpMode {
     static double TICKS_TO_INCHES;
     static final double CENTER_WHEEL_OFFSET = -9;
 
-    private HolonomicOdometry m_robotOdometry;
-    private OdometrySubsystem m_odometry;
+    private HolonomicOdometry robotOdometry;
+    private OdometrySubsystem odometry;
     private GoToPositionCommand gtpCommand1, gtpCommand2;
     private HoldPositionCommand hpCommand1, hpCommand2;
-    private MecanumDrive m_robotDrive;
+    private MecanumDrive robotDrive;
     private Motor fL, fR, bL, bR;
     private MotorEx leftEncoder, rightEncoder, centerEncoder;
 
@@ -63,7 +63,7 @@ public class GoToPositionSample extends CommandOpMode {
         bR.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
 
         // create our drive object
-        m_robotDrive = new MecanumDrive(fL, fR, bL, bR);
+        robotDrive = new MecanumDrive(fL, fR, bL, bR);
 
         leftEncoder = new MotorEx(hardwareMap, "rb");
         rightEncoder = new MotorEx(hardwareMap, "rf");
@@ -82,17 +82,17 @@ public class GoToPositionSample extends CommandOpMode {
 
 
         // create our odometry object and subsystem
-        m_robotOdometry = new HolonomicOdometry(
+        robotOdometry = new HolonomicOdometry(
                 () -> leftEncoder.getCurrentPosition() * TICKS_TO_INCHES - left,
                 () -> rightEncoder.getCurrentPosition() * TICKS_TO_INCHES - right,
                 () -> centerEncoder.getCurrentPosition() * TICKS_TO_INCHES - center,
                 TRACKWIDTH, CENTER_WHEEL_OFFSET
         );
-        m_odometry = new OdometrySubsystem(m_robotOdometry);
+        odometry = new OdometrySubsystem(robotOdometry);
 
         // create our pure pursuit command
         gtpCommand1 = new GoToPositionCommand(
-                m_robotDrive, m_odometry,
+                robotDrive, odometry,
                 new Pose2d(48, 0, new Rotation2d(0)),
                 new Pose2d(0.5, 0.5, new Rotation2d(Math.toRadians(5))),
                 new Pose2d(8, 8, new Rotation2d(Math.toRadians(35))),
@@ -100,7 +100,7 @@ public class GoToPositionSample extends CommandOpMode {
         );
 
         gtpCommand2 = new GoToPositionCommand(
-                m_robotDrive, m_odometry,
+                robotDrive, odometry,
                 new Pose2d(0, 0, new Rotation2d(0)),
                 new Pose2d(0.5, 0.5, new Rotation2d(Math.toRadians(5))),
                 new Pose2d(8, 8, new Rotation2d(Math.toRadians(35))),
@@ -108,7 +108,7 @@ public class GoToPositionSample extends CommandOpMode {
         );
 
         hpCommand1 = new HoldPositionCommand(
-                m_robotDrive, m_odometry,
+                robotDrive, odometry,
                 new Pose2d(48, 0, new Rotation2d(0)),
                 1500,
                 new Pose2d(8, 8, new Rotation2d(Math.toRadians(35))),
@@ -116,7 +116,7 @@ public class GoToPositionSample extends CommandOpMode {
         );
 
         hpCommand2 = new HoldPositionCommand(
-                m_robotDrive, m_odometry,
+                robotDrive, odometry,
                 new Pose2d(0, 0, new Rotation2d(0)),
                 1500,
                 new Pose2d(8, 8, new Rotation2d(Math.toRadians(35))),
@@ -135,7 +135,7 @@ public class GoToPositionSample extends CommandOpMode {
     @Override
     public void run() {
         super.run();
-        Pose2d pose = m_robotOdometry.getPose();
+        Pose2d pose = robotOdometry.getPose();
         telemetry.addLine(pose.toString());
         telemetry.update();
 

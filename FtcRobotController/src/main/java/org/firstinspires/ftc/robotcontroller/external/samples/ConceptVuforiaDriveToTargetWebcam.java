@@ -51,7 +51,7 @@ public class ConceptVuforiaDriveToTargetWebcam extends LinearOpMode
     final double SPEED_GAIN =   0.02 ;   //  Speed Control "Gain". eg: Ramp up to 50% power at a 25 inch error.   (0.50 / 25.0)
     final double TURN_GAIN  =   0.01 ;   //  Turn Control "Gain".  eg: Ramp up to 25% power at a 25 degree error. (0.25 / 25.0)
 
-    final double MM_PER_INCH = 25.40 ;   //  Metric conversion
+    final double MPER_INCH = 25.40 ;   //  Metric conversion
 
     /*
      * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
@@ -145,8 +145,8 @@ public class ConceptVuforiaDriveToTargetWebcam extends LinearOpMode
                         VectorF trans = targetPose.getTranslation();
 
                         // Extract the X & Y components of the offset of the target relative to the robot
-                        double targetX = trans.get(0) / MM_PER_INCH; // Image X axis
-                        double targetY = trans.get(2) / MM_PER_INCH; // Image Z axis
+                        double targetX = trans.get(0) / MPER_INCH; // Image X axis
+                        double targetY = trans.get(2) / MPER_INCH; // Image Z axis
 
                         // target range is based on distance from robot position to origin (right triangle).
                         targetRange = Math.hypot(targetX, targetY);

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.teleop;
+package org.firstinspires.ftc.teamcode.teleop.test;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
@@ -13,8 +13,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @TeleOp
 public class DriveTest extends OpMode {
-    private HolonomicOdometry m_robotOdometry;
-    private MecanumDrive m_robotDrive;
+    private HolonomicOdometry robotOdometry;
+    private MecanumDrive robotDrive;
     private Motor fL, fR, bL, bR;
     private MotorEx leftEncoder, rightEncoder, centerEncoder;
 
@@ -45,7 +45,7 @@ public class DriveTest extends OpMode {
 
 
         // create our drive object
-        m_robotDrive = new MecanumDrive(fL, fR, bL, bR);
+        robotDrive = new MecanumDrive(fL, fR, bL, bR);
 
         leftEncoder = new MotorEx(hardwareMap, "rb");
         rightEncoder = new MotorEx(hardwareMap, "rf");
@@ -57,7 +57,7 @@ public class DriveTest extends OpMode {
         TICKS_TO_INCHES = 1 / 1743.02601133;
 
         // create our odometry object and subsystem
-        m_robotOdometry = new HolonomicOdometry(
+        robotOdometry = new HolonomicOdometry(
                 () -> leftEncoder.getCurrentPosition() * TICKS_TO_INCHES,
                 () -> rightEncoder.getCurrentPosition() * TICKS_TO_INCHES,
                 () -> centerEncoder.getCurrentPosition() * TICKS_TO_INCHES,
@@ -69,9 +69,9 @@ public class DriveTest extends OpMode {
 
     @Override
     public void loop() {
-        m_robotDrive.driveRobotCentric(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.right_stick_x);
-        m_robotOdometry.updatePose();
+        robotDrive.driveRobotCentric(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.right_stick_x);
+        robotOdometry.updatePose();
 
-        telemetry.addLine(m_robotOdometry.getPose().toString());
+        telemetry.addLine(robotOdometry.getPose().toString());
     }
 }
