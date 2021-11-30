@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommands;
+package org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommands.specific;
 
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
@@ -13,10 +13,10 @@ import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.IntakeSubsyst
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.LiftSubsystem;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.OuttakeSubsystem;
 
-public class OuttakeAndResetCommand extends SequentialCommandGroup {
+public class OuttakeAndResetSpecificCommand extends SequentialCommandGroup {
 
-    public OuttakeAndResetCommand(IntakeSubsystem intakeSubsystem, ArmSubsystem armSubsystem,
-                                  LiftSubsystem liftSubsystem, OuttakeSubsystem outtakeSubsystem) {
+    public OuttakeAndResetSpecificCommand(IntakeSubsystem intakeSubsystem, ArmSubsystem armSubsystem,
+                                          LiftSubsystem liftSubsystem, OuttakeSubsystem outtakeSubsystem) {
 
         addCommands(
                 new OuttakeOuttakeCommand(outtakeSubsystem),
