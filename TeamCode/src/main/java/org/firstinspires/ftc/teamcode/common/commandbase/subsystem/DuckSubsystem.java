@@ -1,30 +1,31 @@
 package org.firstinspires.ftc.teamcode.common.commandbase.subsystem;
 
-import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.technototes.library.hardware.motor.Motor;
+import com.technototes.library.subsystem.Subsystem;
 
-public class DuckSubsystem extends SubsystemBase {
-    private CRServo left;
-    private CRServo right;
+public class DuckSubsystem implements Subsystem {
+    private Motor<CRServo> left;
+    private Motor<CRServo> right;
 
-    public DuckSubsystem(CRServo left, CRServo right) {
+    public DuckSubsystem(Motor<CRServo> left, Motor<CRServo> right) {
         this.left = left;
         this.right = right;
     }
 
     public void leftOn() {
-        left.setPower(1);
+        left.setSpeed(1);
     }
 
     public void leftOff() {
-        left.setPower(0);
+        left.setSpeed(0);
     }
 
     public void rightOn() {
-        right.setPower(-1);
+        right.setSpeed(-1);
     }
 
     public void rightOff() {
-        right.setPower(0);
+        right.setSpeed(0);
     }
 }

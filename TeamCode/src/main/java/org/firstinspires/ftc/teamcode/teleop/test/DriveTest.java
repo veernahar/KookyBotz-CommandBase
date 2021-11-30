@@ -2,21 +2,33 @@ package org.firstinspires.ftc.teamcode.teleop.test;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.arcrobotics.ftclib.drivebase.MecanumDrive;
-import com.arcrobotics.ftclib.hardware.motors.Motor;
-import com.arcrobotics.ftclib.hardware.motors.MotorEx;
-import com.arcrobotics.ftclib.kinematics.HolonomicOdometry;
+
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.technototes.library.hardware.motor.EncodedMotor;
+import com.technototes.library.hardware.motor.Motor;
+import com.technototes.library.hardware.sensor.encoder.MotorEncoder;
+import com.technototes.library.logger.Log;
+import com.technototes.library.logger.Loggable;
+import com.technototes.library.structure.CommandOpMode;
+import com.technototes.library.util.Color;
+
+import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DrivebaseSubsystem;
+import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.OdometrySubsystem;
 
 @TeleOp
-public class DriveTest extends OpMode {
-    private HolonomicOdometry robotOdometry;
-    private MecanumDrive robotDrive;
-    private Motor fL, fR, bL, bR;
-    private MotorEx leftEncoder, rightEncoder, centerEncoder;
+public class DriveTest extends CommandOpMode implements Loggable {
+    private OdometrySubsystem robotOdometry;
+
+    // anything you are logging must be public
+    @Log(name="Drivebase pose", color = Color.RED)
+    public DrivebaseSubsystem robotDrive;
+    private EncodedMotor<DcMotorEx> fL, fR, bL, bR;
+    private MotorEncoder leftEncoder, rightEncoder, centerEncoder;
 
     static final double TRACKWIDTH = 9.38101;
     static final double WHEEL_DIAMETER = 1.37795276;
@@ -25,53 +37,38 @@ public class DriveTest extends OpMode {
 
 
     @Override
-    public void init() {
+    public void uponInit() {
 
         telemetry  = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        fL = new Motor(hardwareMap, "lf");
-        fR = new Motor(hardwareMap, "rf");
-        bL = new Motor(hardwareMap, "lb");
-        bR = new Motor(hardwareMap, "rb");
+        //TODO invert necessary motors
+// can do on same line with chaining
+        fL = new EncodedMotor<>("lf");//.invert();
+        fR = new EncodedMotor<>("rf");
+        bL = new EncodedMotor<>("lb");
+        bR = new EncodedMotor<>("rb");
 
-        fL.motor.setDirection(DcMotorSimple.Direction.REVERSE);
-        fR.motor.setDirection(DcMotorSimple.Direction.REVERSE);
-        bL.motor.setDirection(DcMotorSimple.Direction.REVERSE);
-        bR.motor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        fL.motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        fR.motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        bL.motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        bR.motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftEncoder = new MotorEncoder("rb");
+        rightEncoder = new MotorEncoder("rf");
+        centerEncoder = new MotorEncoder("lf");
 
+        leftEncoder.invert();
 
         // create our drive object
-        robotDrive = new MecanumDrive(fL, fR, bL, bR);
+        //TODO have imu
+        robotDrive = new DrivebaseSubsystem(fL, fR, bL, bR, null, new OdometrySubsystem(leftEncoder, rightEncoder, centerEncoder));
 
-        leftEncoder = new MotorEx(hardwareMap, "rb");
-        rightEncoder = new MotorEx(hardwareMap, "rf");
-        centerEncoder = new MotorEx(hardwareMap, "lf");
-
-        leftEncoder.encoder.setDirection(Motor.Direction.REVERSE);
-
-        // calculate multiplier
-        TICKS_TO_INCHES = 1 / 1743.02601133;
-
-        // create our odometry object and subsystem
-        robotOdometry = new HolonomicOdometry(
-                () -> leftEncoder.getCurrentPosition() * TICKS_TO_INCHES,
-                () -> rightEncoder.getCurrentPosition() * TICKS_TO_INCHES,
-                () -> centerEncoder.getCurrentPosition() * TICKS_TO_INCHES,
-                TRACKWIDTH, CENTER_WHEEL_OFFSET
-        );
 
 
     }
 
     @Override
-    public void loop() {
-        robotDrive.driveRobotCentric(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.right_stick_x);
-        robotOdometry.updatePose();
-
-        telemetry.addLine(robotOdometry.getPose().toString());
+    public void runLoop() {
+        robotDrive.setWeightedDrivePower(new Pose2d(
+                driverGamepad.leftStick.getXAxis() / driverGamepad.rightTrigger.getAsDouble() > 0.5 ? 1 : 2,
+                driverGamepad.leftStick.getYAxis() / driverGamepad.rightTrigger.getAsDouble() > 0.5 ? 1 : 2,
+                driverGamepad.rightStick.getXAxis() / driverGamepad.rightTrigger.getAsDouble() > 0.5 ? 1 : 2
+        ));
+        robotDrive.update();
     }
 }

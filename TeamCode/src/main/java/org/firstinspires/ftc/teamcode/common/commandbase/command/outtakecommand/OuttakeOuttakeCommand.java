@@ -1,10 +1,10 @@
 package org.firstinspires.ftc.teamcode.common.commandbase.command.outtakecommand;
 
-import com.arcrobotics.ftclib.command.CommandBase;
+import com.technototes.library.command.Command;
 
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.OuttakeSubsystem;
 
-public class OuttakeOuttakeCommand extends CommandBase {
+public class OuttakeOuttakeCommand implements Command {
     private OuttakeSubsystem outtake;
 
     public OuttakeOuttakeCommand(OuttakeSubsystem outtakeSubsystem) {
@@ -12,7 +12,7 @@ public class OuttakeOuttakeCommand extends CommandBase {
     }
 
     @Override
-    public void initialize() {
+    public void execute() {
         outtake.outtake();
     }
 }

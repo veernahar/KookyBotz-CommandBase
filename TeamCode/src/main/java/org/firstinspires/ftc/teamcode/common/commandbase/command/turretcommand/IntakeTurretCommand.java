@@ -1,11 +1,11 @@
 package org.firstinspires.ftc.teamcode.common.commandbase.command.turretcommand;
 
-import com.arcrobotics.ftclib.command.CommandBase;
+import com.technototes.library.command.Command;
 
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.OuttakeSubsystem;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.TurretSubsystem;
 
-public class IntakeTurretCommand extends CommandBase {
+public class IntakeTurretCommand implements Command {
     private TurretSubsystem turret;
 
     public IntakeTurretCommand(TurretSubsystem turretSubsystem) {
@@ -13,7 +13,7 @@ public class IntakeTurretCommand extends CommandBase {
     }
 
     @Override
-    public void initialize() {
+    public void execute() {
         turret.intake();
     }
 }

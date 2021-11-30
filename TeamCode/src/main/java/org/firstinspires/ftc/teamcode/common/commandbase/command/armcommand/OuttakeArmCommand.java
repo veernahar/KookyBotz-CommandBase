@@ -1,12 +1,12 @@
 package org.firstinspires.ftc.teamcode.common.commandbase.command.armcommand;
 
-import com.arcrobotics.ftclib.command.CommandBase;
+import com.technototes.library.command.Command;
 
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.ArmSubsystem;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.OuttakeSubsystem;
 
-public class OuttakeArmCommand extends CommandBase {
+public class OuttakeArmCommand implements Command {
     private ArmSubsystem arm;
 
     public OuttakeArmCommand(ArmSubsystem armSubsystem) {
@@ -14,7 +14,9 @@ public class OuttakeArmCommand extends CommandBase {
     }
 
     @Override
-    public void initialize() {
+    public void execute() {
         arm.outtake();
     }
+
+
 }

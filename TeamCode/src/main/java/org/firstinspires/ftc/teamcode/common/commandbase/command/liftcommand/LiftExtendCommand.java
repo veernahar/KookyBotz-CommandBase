@@ -1,10 +1,10 @@
 package org.firstinspires.ftc.teamcode.common.commandbase.command.liftcommand;
 
-import com.arcrobotics.ftclib.command.CommandBase;
+import com.technototes.library.command.Command;
 
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.LiftSubsystem;
 
-public class LiftExtendCommand extends CommandBase {
+public class LiftExtendCommand implements Command {
     private LiftSubsystem lift;
 
     public LiftExtendCommand(LiftSubsystem liftSubsystem) {
@@ -12,7 +12,7 @@ public class LiftExtendCommand extends CommandBase {
     }
 
     @Override
-    public void initialize() {
+    public void execute() {
         lift.outtake();
     }
 }

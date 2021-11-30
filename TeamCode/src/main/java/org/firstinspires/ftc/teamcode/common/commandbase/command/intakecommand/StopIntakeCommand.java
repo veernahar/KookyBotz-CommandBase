@@ -1,10 +1,11 @@
 package org.firstinspires.ftc.teamcode.common.commandbase.command.intakecommand;
 
-import com.arcrobotics.ftclib.command.CommandBase;
+
+import com.technototes.library.command.Command;
 
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.IntakeSubsystem;
 
-public class StopIntakeCommand extends CommandBase {
+public class StopIntakeCommand implements Command {
     private IntakeSubsystem intake;
 
     public StopIntakeCommand(IntakeSubsystem intakeSubsystem) {
@@ -12,7 +13,7 @@ public class StopIntakeCommand extends CommandBase {
     }
 
     @Override
-    public void initialize() {
+    public void execute() {
         intake.stop();
     }
 }

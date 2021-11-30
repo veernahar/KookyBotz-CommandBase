@@ -1,10 +1,10 @@
 package org.firstinspires.ftc.teamcode.common.commandbase.command.duckcommand;
 
-import com.arcrobotics.ftclib.command.CommandBase;
+import com.technototes.library.command.Command;
 
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DuckSubsystem;
 
-public class LeftDuckOffCommand extends CommandBase {
+public class LeftDuckOffCommand implements Command {
     private DuckSubsystem duck;
 
     public LeftDuckOffCommand(DuckSubsystem duckSubsystem){
@@ -12,7 +12,7 @@ public class LeftDuckOffCommand extends CommandBase {
     }
 
     @Override
-    public void initialize(){
+    public void execute(){
         duck.leftOff();
     }
 }
