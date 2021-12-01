@@ -1,35 +1,34 @@
 package org.firstinspires.ftc.teamcode.common.commandbase.subsystem;
 
-import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.arcrobotics.ftclib.hardware.motors.MotorEx;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.technototes.library.hardware.motor.Motor;
-import com.technototes.library.hardware.sensor.RangeSensor;
-import com.technototes.library.hardware.servo.Servo;
-import com.technototes.library.subsystem.Subsystem;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-public class IntakeSubsystem implements Subsystem {
-    private Motor<DcMotorEx> intakeMotor;
+public class IntakeSubsystem extends SubsystemBase {
+    private MotorEx intakeMotor;
     private Servo gateServo;
-    private RangeSensor distanceSensor;
+    private DistanceSensor distanceSensor;
 
-    public IntakeSubsystem(Motor<DcMotorEx> intakeMotor, Servo gateServo, RangeSensor distanceSensor) {
+    public IntakeSubsystem(MotorEx intakeMotor, Servo gateServo, DistanceSensor distanceSensor) {
         this.intakeMotor = intakeMotor;
         this.gateServo = gateServo;
         this.distanceSensor = distanceSensor;
     }
 
     public void start() {
-        intakeMotor.setSpeed(1);
+        intakeMotor.motorEx.setPower(1);
     }
 
     public void stop() {
-        intakeMotor.setSpeed(0);
+        intakeMotor.motorEx.setPower(0);
     }
 
     public void reverse() {
-        intakeMotor.setSpeed(-1);
+        intakeMotor.motorEx.setPower(-1);
     }
 
     public void open() {
@@ -41,6 +40,6 @@ public class IntakeSubsystem implements Subsystem {
     }
 
     public boolean hasFreight() {
-        return distanceSensor.getSensorValue(DistanceUnit.CM) < 7;
+        return distanceSensor.getDistance(DistanceUnit.CM) < 7;
     }
 }

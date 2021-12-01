@@ -1,10 +1,10 @@
 package org.firstinspires.ftc.teamcode.common.commandbase.command.turretcommand;
 
-import com.technototes.library.command.Command;
+import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.TurretSubsystem;
 
-public class OuttakeBlueTurretCommand implements Command {
+public class OuttakeBlueTurretCommand extends CommandBase {
     private TurretSubsystem turret;
 
     public OuttakeBlueTurretCommand(TurretSubsystem turretSubsystem) {
@@ -12,7 +12,7 @@ public class OuttakeBlueTurretCommand implements Command {
     }
 
     @Override
-    public void execute() {
+    public void initialize() {
         turret.outtakeBlue();
     }
 }

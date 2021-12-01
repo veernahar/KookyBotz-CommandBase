@@ -1,10 +1,9 @@
 package org.firstinspires.ftc.teamcode.common.commandbase.subsystem;
 
-import com.technototes.library.hardware.servo.Servo;
-import com.technototes.library.subsystem.Subsystem;
+import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.qualcomm.robotcore.hardware.Servo;
 
-public class ArmSubsystem implements Subsystem {
-    //TODO can make this a servo group
+public class ArmSubsystem extends SubsystemBase {
     private Servo leftArmServo;
     private Servo rightArmServo;
 

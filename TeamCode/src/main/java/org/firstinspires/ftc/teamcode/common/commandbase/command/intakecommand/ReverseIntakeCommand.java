@@ -1,10 +1,10 @@
 package org.firstinspires.ftc.teamcode.common.commandbase.command.intakecommand;
 
-import com.technototes.library.command.Command;
+import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.IntakeSubsystem;
 
-public class ReverseIntakeCommand implements Command {
+public class ReverseIntakeCommand extends CommandBase {
     private IntakeSubsystem intake;
 
     public ReverseIntakeCommand(IntakeSubsystem intakeSubsystem) {
@@ -12,7 +12,7 @@ public class ReverseIntakeCommand implements Command {
     }
 
     @Override
-    public void execute() {
+    public void initialize() {
         intake.reverse();
     }
 }

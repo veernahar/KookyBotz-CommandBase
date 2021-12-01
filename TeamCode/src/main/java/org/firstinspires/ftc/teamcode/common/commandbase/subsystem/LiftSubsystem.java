@@ -1,23 +1,23 @@
 package org.firstinspires.ftc.teamcode.common.commandbase.subsystem;
 
+import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.technototes.library.hardware.motor.EncodedMotor;
-import com.technototes.library.subsystem.Subsystem;
 
+public class LiftSubsystem extends SubsystemBase {
 
-public class LiftSubsystem implements Subsystem {
-    //TODO missing some features dont recommend abstracting encoded motors unless u doing rr pid
-    private DcMotorEx leftMotor;
-    private DcMotorEx rightMotor;
+    private MotorEx leftMotor;
+    private MotorEx rightMotor;
 
     public int min;
     public int max;
     public int current = 0;
 
-    public LiftSubsystem(EncodedMotor<DcMotorEx> leftMotor, EncodedMotor<DcMotorEx> rightMotor) {
-        this.leftMotor = leftMotor.invert().getDevice();
-        this.rightMotor = rightMotor.getDevice();
+    public LiftSubsystem(MotorEx leftMotor, MotorEx rightMotor) {
+        this.leftMotor = leftMotor;
+        this.rightMotor = rightMotor;
 
+        leftMotor.motor.setDirection(DcMotorEx.Direction.REVERSE);
     }
 
     public void setPos(int pos) {
@@ -26,14 +26,14 @@ public class LiftSubsystem implements Subsystem {
     }
 
     public void normalize() {
-        leftMotor.setTargetPosition(current);
-        leftMotor.setTargetPositionTolerance(10);
-        leftMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        leftMotor.setPower(1);
-        rightMotor.setTargetPosition(current);
-        rightMotor.setTargetPositionTolerance(10);
-        rightMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        rightMotor.setPower(1);
+        leftMotor.motorEx.setTargetPosition(current);
+        leftMotor.motorEx.setTargetPositionTolerance(10);
+        leftMotor.motorEx.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        leftMotor.motorEx.setPower(1);
+        rightMotor.motorEx.setTargetPosition(current);
+        rightMotor.motorEx.setTargetPositionTolerance(10);
+        rightMotor.motorEx.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        rightMotor.motorEx.setPower(1);
     }
 
     public void outtake() {

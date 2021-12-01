@@ -1,10 +1,10 @@
 package org.firstinspires.ftc.teamcode.common.commandbase.command.intakecommand;
 
-import com.technototes.library.command.Command;
+import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.IntakeSubsystem;
 
-public class CloseIntakeCommand implements Command {
+public class CloseIntakeCommand extends CommandBase {
     private IntakeSubsystem intake;
 
     public CloseIntakeCommand(IntakeSubsystem intakeSubsystem) {
@@ -12,7 +12,7 @@ public class CloseIntakeCommand implements Command {
     }
 
     @Override
-    public void execute() {
+    public void initialize() {
         intake.close();
     }
 }

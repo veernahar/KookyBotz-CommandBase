@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommands.specific;
 
-import com.technototes.library.command.SequentialCommandGroup;
-import com.technototes.library.command.WaitCommand;
+import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 
 import org.firstinspires.ftc.teamcode.common.commandbase.command.armcommand.IntakeArmCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intakecommand.StartIntakeCommand;

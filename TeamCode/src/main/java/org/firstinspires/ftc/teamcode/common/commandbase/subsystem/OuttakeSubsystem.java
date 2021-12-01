@@ -1,9 +1,9 @@
 package org.firstinspires.ftc.teamcode.common.commandbase.subsystem;
 
-import com.technototes.library.hardware.servo.Servo;
-import com.technototes.library.subsystem.Subsystem;
+import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.qualcomm.robotcore.hardware.Servo;
 
-public class OuttakeSubsystem implements Subsystem {
+public class OuttakeSubsystem extends SubsystemBase {
     private Servo outtakeServo;
 
     public OuttakeSubsystem(Servo outtakseServo) {

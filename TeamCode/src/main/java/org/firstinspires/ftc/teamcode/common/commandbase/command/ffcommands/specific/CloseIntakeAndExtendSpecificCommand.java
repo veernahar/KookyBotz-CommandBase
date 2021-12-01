@@ -1,7 +1,8 @@
 package org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommands.specific;
 
-import com.technototes.library.command.SequentialCommandGroup;
-import com.technototes.library.command.WaitCommand;
+import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 
 import org.firstinspires.ftc.teamcode.common.commandbase.command.armcommand.OuttakeArmCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intakecommand.CloseIntakeCommand;
@@ -17,7 +18,7 @@ public class CloseIntakeAndExtendSpecificCommand extends SequentialCommandGroup 
     public CloseIntakeAndExtendSpecificCommand(IntakeSubsystem intakeSubsystem, ArmSubsystem armSubsystem,
                                                LiftSubsystem liftSubsystem, OuttakeSubsystem outtakeSubsystem) {
 
-        super(
+        addCommands(
                 new WaitCommand(250),
                 new CloseIntakeCommand(intakeSubsystem),
                 new WaitCommand(500),
