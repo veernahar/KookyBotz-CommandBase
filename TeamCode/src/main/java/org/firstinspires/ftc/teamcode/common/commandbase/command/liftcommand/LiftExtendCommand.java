@@ -15,4 +15,10 @@ public class LiftExtendCommand extends CommandBase {
     public void initialize() {
         lift.outtake();
     }
+
+
+    @Override
+    public boolean isFinished(){
+        return true;
+    }
 }

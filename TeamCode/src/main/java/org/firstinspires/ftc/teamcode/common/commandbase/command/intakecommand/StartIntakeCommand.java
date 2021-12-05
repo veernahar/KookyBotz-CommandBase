@@ -15,4 +15,10 @@ public class StartIntakeCommand extends CommandBase {
     public void initialize() {
         intake.start();
     }
+
+
+    @Override
+    public boolean isFinished(){
+        return true;
+    }
 }

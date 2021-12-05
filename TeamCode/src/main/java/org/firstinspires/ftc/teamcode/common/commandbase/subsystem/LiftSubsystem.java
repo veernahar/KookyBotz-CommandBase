@@ -25,6 +25,7 @@ public class LiftSubsystem extends SubsystemBase {
 
     public void setPos(int pos) {
         if (pos <= max && pos >= min) current = pos;
+        System.out.println(current);
         normalize();
     }
 
@@ -40,7 +41,7 @@ public class LiftSubsystem extends SubsystemBase {
     }
 
     public void outtake() {
-        setPos(400);
+        setPos(800);
     }
 
     public void intake() {

@@ -15,4 +15,10 @@ public class RightDuckOnCommand extends CommandBase {
     public void initialize(){
         duck.rightOn();
     }
+
+
+    @Override
+    public boolean isFinished(){
+        return true;
+    }
 }

@@ -15,4 +15,10 @@ public class StopIntakeCommand extends CommandBase {
     public void initialize() {
         intake.stop();
     }
+
+
+    @Override
+    public boolean isFinished(){
+        return true;
+    }
 }

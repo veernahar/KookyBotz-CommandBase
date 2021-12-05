@@ -15,4 +15,10 @@ public class ReverseIntakeCommand extends CommandBase {
     public void initialize() {
         intake.reverse();
     }
+
+
+    @Override
+    public boolean isFinished(){
+        return true;
+    }
 }

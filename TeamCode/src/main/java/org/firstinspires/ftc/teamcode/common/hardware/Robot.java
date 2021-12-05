@@ -66,7 +66,7 @@ public class Robot {
         turret = new TurretSubsystem(turretServo);
 
         leftDucc = hardwareMap.get(CRServo.class, "leftducc");
-        rightDucc = hardwareMap.get(CRServo.class, "righthducc");
+        rightDucc = hardwareMap.get(CRServo.class, "rightducc");
 
         ducc = new DuckSubsystem(leftDucc, rightDucc);
     }

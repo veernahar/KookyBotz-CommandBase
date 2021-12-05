@@ -17,4 +17,9 @@ public class IntakeArmCommand extends CommandBase {
     public void initialize() {
         arm.intake();
     }
+
+    @Override
+    public boolean isFinished(){
+        return true;
+    }
 }

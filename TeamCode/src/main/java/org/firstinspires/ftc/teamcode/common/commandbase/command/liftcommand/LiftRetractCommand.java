@@ -15,4 +15,9 @@ public class LiftRetractCommand extends CommandBase {
     public void initialize() {
         lift.intake();
     }
+
+    @Override
+    public boolean isFinished(){
+        return true;
+    }
 }

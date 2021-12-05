@@ -15,4 +15,10 @@ public class OuttakeOuttakeCommand extends CommandBase {
     public void initialize() {
         outtake.outtake();
     }
+
+
+    @Override
+    public boolean isFinished(){
+        return true;
+    }
 }

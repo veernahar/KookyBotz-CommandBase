@@ -13,6 +13,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.armcommand.OuttakeArmCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommands.specific.CloseIntakeAndExtendSpecificCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommands.specific.OuttakeAndResetSpecificCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.intakecommand.StartIntakeCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.liftcommand.LiftExtendCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.liftcommand.LiftRetractCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.outtakecommand.OuttakeOuttakeCommand;
@@ -21,7 +22,6 @@ import org.firstinspires.ftc.teamcode.common.ff.MODE;
 import org.firstinspires.ftc.teamcode.common.ff.STATE;
 import org.firstinspires.ftc.teamcode.common.hardware.Robot;
 
-@Disabled
 @TeleOp
 public class shauryan_code extends CommandOpMode {
     private Robot robot;
@@ -43,9 +43,10 @@ public class shauryan_code extends CommandOpMode {
 //        );
 
         schedule(
+                new InstantCommand(),
                 new SequentialCommandGroup(
                         new LiftExtendCommand(robot.lift),
-                        new WaitCommand(3000),
+                        new WaitCommand(2000),
                         new LiftRetractCommand(robot.lift)
                 )
         );

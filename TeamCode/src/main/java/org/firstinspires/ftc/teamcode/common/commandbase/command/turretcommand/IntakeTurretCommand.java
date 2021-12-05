@@ -16,4 +16,10 @@ public class IntakeTurretCommand extends CommandBase {
     public void initialize() {
         turret.intake();
     }
+
+
+    @Override
+    public boolean isFinished(){
+        return true;
+    }
 }

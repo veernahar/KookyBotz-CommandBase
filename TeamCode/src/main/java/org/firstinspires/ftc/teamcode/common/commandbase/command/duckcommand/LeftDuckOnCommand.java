@@ -15,4 +15,10 @@ public class LeftDuckOnCommand extends CommandBase {
     public void initialize(){
         duck.leftOn();
     }
+
+
+    @Override
+    public boolean isFinished(){
+        return true;
+    }
 }

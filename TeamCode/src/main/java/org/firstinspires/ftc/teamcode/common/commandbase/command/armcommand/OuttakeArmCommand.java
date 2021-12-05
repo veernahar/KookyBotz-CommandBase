@@ -17,4 +17,10 @@ public class OuttakeArmCommand extends CommandBase {
     public void initialize() {
         arm.outtake();
     }
+
+
+    @Override
+    public boolean isFinished(){
+        return true;
+    }
 }

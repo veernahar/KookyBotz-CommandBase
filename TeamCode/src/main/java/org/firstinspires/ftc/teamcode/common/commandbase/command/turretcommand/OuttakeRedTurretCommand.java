@@ -15,4 +15,10 @@ public class OuttakeRedTurretCommand extends CommandBase {
     public void initialize() {
         turret.outtakeRed();
     }
+
+
+    @Override
+    public boolean isFinished(){
+        return true;
+    }
 }

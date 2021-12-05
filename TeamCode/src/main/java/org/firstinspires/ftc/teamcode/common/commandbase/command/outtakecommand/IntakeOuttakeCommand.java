@@ -16,4 +16,10 @@ public class IntakeOuttakeCommand extends CommandBase {
     public void initialize() {
         outtake.intake();
     }
+
+
+    @Override
+    public boolean isFinished(){
+        return true;
+    }
 }
