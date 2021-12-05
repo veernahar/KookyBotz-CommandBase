@@ -10,8 +10,8 @@ import org.firstinspires.ftc.teamcode.common.commandbase.command.intakecommand.I
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intakecommand.IntakeStopCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.liftcommand.LiftExtendCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.liftcommand.LiftRetractCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.outtakecommand.OuttakeIntakeCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.outtakecommand.OuttakeOuttakeCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.dumpcommand.OuttakeIntakeCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.dumpcommand.OuttakeOuttakeCommand;
 import org.firstinspires.ftc.teamcode.common.hardware.Robot;
 
 public class PreloadCommand extends SequentialCommandGroup {

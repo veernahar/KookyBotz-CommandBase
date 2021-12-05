@@ -2,12 +2,12 @@ package org.firstinspires.ftc.teamcode.common.commandbase.command.dumpcommand;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
-import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.OuttakeSubsystem;
+import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DumpSubsystem;
 
-public class OuttakeOuttakeCommand extends CommandBase {
-    private OuttakeSubsystem outtake;
+public class DumpOuttakeCommand extends CommandBase {
+    private DumpSubsystem outtake;
 
-    public OuttakeOuttakeCommand(OuttakeSubsystem outtakeSubsystem) {
+    public DumpOuttakeCommand(DumpSubsystem outtakeSubsystem) {
         outtake = outtakeSubsystem;
     }
 
@@ -15,6 +15,7 @@ public class OuttakeOuttakeCommand extends CommandBase {
     public void initialize() {
         outtake.outtake();
     }
+
 
     @Override
     public boolean isFinished(){

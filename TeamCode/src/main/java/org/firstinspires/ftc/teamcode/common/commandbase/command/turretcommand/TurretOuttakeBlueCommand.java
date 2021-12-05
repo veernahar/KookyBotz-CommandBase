@@ -4,16 +4,16 @@ import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.TurretSubsystem;
 
-public class OuttakeRedTurretCommand extends CommandBase {
+public class TurretOuttakeBlueCommand extends CommandBase {
     private TurretSubsystem turret;
 
-    public OuttakeRedTurretCommand(TurretSubsystem turretSubsystem) {
+    public TurretOuttakeBlueCommand(TurretSubsystem turretSubsystem) {
         turret = turretSubsystem;
     }
 
     @Override
     public void initialize() {
-        turret.outtakeRed();
+        turret.outtakeBlue();
     }
 
 

@@ -12,10 +12,10 @@ public class LiftSubsystem extends SubsystemBase {
     private final MotorEx rightMotor;
 
     public static int min = 0;
-    public static int max = 1400;
+    public static int max = 600;
 
-    public static int intakePos = 0;
-    public static int outtakePos = 0;
+    public static int intakePos = 12;
+    public static int outtakePos = 600;
 
     public int current = 0;
 
