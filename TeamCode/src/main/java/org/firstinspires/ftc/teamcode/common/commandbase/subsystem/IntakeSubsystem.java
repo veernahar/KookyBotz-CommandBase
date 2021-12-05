@@ -10,12 +10,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class IntakeSubsystem extends SubsystemBase {
     private MotorEx intakeMotor;
-    private Servo gateServo;
     private DistanceSensor distanceSensor;
 
-    public IntakeSubsystem(MotorEx intakeMotor, Servo gateServo, DistanceSensor distanceSensor) {
+    public IntakeSubsystem(MotorEx intakeMotor, DistanceSensor distanceSensor) {
         this.intakeMotor = intakeMotor;
-        this.gateServo = gateServo;
         this.distanceSensor = distanceSensor;
     }
 
@@ -29,14 +27,6 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void reverse() {
         intakeMotor.motorEx.setPower(-1);
-    }
-
-    public void open() {
-        gateServo.setPosition(0);
-    }
-
-    public void close() {
-        gateServo.setPosition(1);
     }
 
     public boolean hasFreight() {

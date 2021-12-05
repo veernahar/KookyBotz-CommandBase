@@ -1,11 +1,9 @@
 package org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommands.specific;
 
-import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 
 import org.firstinspires.ftc.teamcode.common.commandbase.command.armcommand.OuttakeArmCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.intakecommand.CloseIntakeCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intakecommand.ReverseIntakeCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.liftcommand.LiftExtendCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.ArmSubsystem;
@@ -20,7 +18,6 @@ public class CloseIntakeAndExtendSpecificCommand extends SequentialCommandGroup 
 
         addCommands(
                 new WaitCommand(250),
-                new CloseIntakeCommand(intakeSubsystem),
                 new WaitCommand(500),
                 new ReverseIntakeCommand(intakeSubsystem),
                 new OuttakeArmCommand(armSubsystem),

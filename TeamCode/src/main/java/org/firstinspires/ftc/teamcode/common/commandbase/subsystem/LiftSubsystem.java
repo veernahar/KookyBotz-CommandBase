@@ -17,7 +17,10 @@ public class LiftSubsystem extends SubsystemBase {
         this.leftMotor = leftMotor;
         this.rightMotor = rightMotor;
 
-        leftMotor.motor.setDirection(DcMotorEx.Direction.REVERSE);
+        min = 0;
+        max = 1400;
+
+        rightMotor.motor.setDirection(DcMotorEx.Direction.REVERSE);
     }
 
     public void setPos(int pos) {
@@ -37,7 +40,7 @@ public class LiftSubsystem extends SubsystemBase {
     }
 
     public void outtake() {
-        setPos(1400);
+        setPos(400);
     }
 
     public void intake() {
