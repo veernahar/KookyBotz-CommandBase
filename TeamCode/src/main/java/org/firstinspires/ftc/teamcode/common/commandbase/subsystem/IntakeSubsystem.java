@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.common.commandbase.subsystem;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
@@ -8,9 +9,12 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
+@Config
 public class IntakeSubsystem extends SubsystemBase {
-    private MotorEx intakeMotor;
-    private DistanceSensor distanceSensor;
+    private final MotorEx intakeMotor;
+    private final DistanceSensor distanceSensor;
+
+    public static double intakePower = 1;
 
     public IntakeSubsystem(MotorEx intakeMotor, DistanceSensor distanceSensor) {
         this.intakeMotor = intakeMotor;
@@ -18,7 +22,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void start() {
-        intakeMotor.motorEx.setPower(1);
+        intakeMotor.motorEx.setPower(intakePower);
     }
 
     public void stop() {
@@ -26,7 +30,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void reverse() {
-        intakeMotor.motorEx.setPower(-1);
+        intakeMotor.motorEx.setPower(intakePower);
     }
 
     public boolean hasFreight() {

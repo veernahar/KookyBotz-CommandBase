@@ -1,11 +1,16 @@
 package org.firstinspires.ftc.teamcode.common.commandbase.subsystem;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.Servo;
 
+@Config
 public class TurretSubsystem extends SubsystemBase {
-    private Servo turretServo;
+    private final Servo turretServo;
 
+    public static double intakePosition = 0.5;
+    public static double outtakeRedPosition = 0.9;
+    public static double outtakeBluePosition = 0.1;
 
     public TurretSubsystem(Servo turretServo) {
         this.turretServo = turretServo;
@@ -13,15 +18,15 @@ public class TurretSubsystem extends SubsystemBase {
     }
 
     public void intake() {
-        turretServo.setPosition(0.5);
+        turretServo.setPosition(intakePosition);
 
     }
 
     public void outtakeBlue() {
-        turretServo.setPosition(0.1);
+        turretServo.setPosition(outtakeBluePosition);
     }
 
     public void outtakeRed() {
-        turretServo.setPosition(0.9);
+        turretServo.setPosition(outtakeRedPosition);
     }
 }

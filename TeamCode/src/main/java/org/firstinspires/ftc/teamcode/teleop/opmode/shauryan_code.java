@@ -42,14 +42,14 @@ public class shauryan_code extends CommandOpMode {
 //                )
 //        );
 
-        schedule(
-                new InstantCommand(),
+        GamepadEx gamepadEx = new GamepadEx(gamepad1);
+        gamepadEx.getGamepadButton(GamepadKeys.Button.A).whenPressed(() -> schedule(
                 new SequentialCommandGroup(
                         new LiftExtendCommand(robot.lift),
                         new WaitCommand(2000),
                         new LiftRetractCommand(robot.lift)
                 )
-        );
+        ));
 
 
     }

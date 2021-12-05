@@ -1,24 +1,27 @@
 package org.firstinspires.ftc.teamcode.common.commandbase.subsystem;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
+@Config
 public class LiftSubsystem extends SubsystemBase {
 
-    private MotorEx leftMotor;
-    private MotorEx rightMotor;
+    private final MotorEx leftMotor;
+    private final MotorEx rightMotor;
 
-    public int min;
-    public int max;
+    public static int min = 0;
+    public static int max = 1400;
+
+    public static int intakePos = 0;
+    public static int outtakePos = 0;
+
     public int current = 0;
 
     public LiftSubsystem(MotorEx leftMotor, MotorEx rightMotor) {
         this.leftMotor = leftMotor;
         this.rightMotor = rightMotor;
-
-        min = 0;
-        max = 1400;
 
         rightMotor.motor.setDirection(DcMotorEx.Direction.REVERSE);
     }
@@ -41,10 +44,10 @@ public class LiftSubsystem extends SubsystemBase {
     }
 
     public void outtake() {
-        setPos(800);
+        setPos(outtakePos);
     }
 
     public void intake() {
-        setPos(0);
+        setPos(intakePos);
     }
 }

@@ -25,7 +25,6 @@ public class Robot {
     private final Servo leftArm, rightArm;
     public final IntakeSubsystem intake;
     private final MotorEx intakeMotor;
-    private final Servo gate;
     public final Rev2mDistanceSensor distanceSensor;
     public final OuttakeSubsystem outtake;
     private final Servo outtakeServo;
@@ -43,21 +42,20 @@ public class Robot {
         drive = new MecanumDrive(lf, rf, lb, rb);
         drive.setRightSideInverted(false);
 
-        leftSlide = new MotorEx(hardwareMap, "leftSlide");
-        rightSlide = new MotorEx(hardwareMap, "rightSlide");
+        leftSlide = new MotorEx(hardwareMap, "slideL");
+        rightSlide = new MotorEx(hardwareMap, "slideR");
 
         lift = new LiftSubsystem(leftSlide, rightSlide);
 
-        leftArm = hardwareMap.get(Servo.class, "leftArm");
-        rightArm = hardwareMap.get(Servo.class, "rightArm");
+        leftArm = hardwareMap.get(Servo.class, "arm1");
+        rightArm = hardwareMap.get(Servo.class, "arm2");
 
         arm = new ArmSubsystem(leftArm, rightArm);
 
         intakeMotor = new MotorEx(hardwareMap, "intake");
-        gate = hardwareMap.get(Servo.class, "gate");
         distanceSensor = hardwareMap.get(Rev2mDistanceSensor.class, "distance");
 
-        intake = new IntakeSubsystem(intakeMotor, gate, distanceSensor);
+        intake = new IntakeSubsystem(intakeMotor, distanceSensor);
 
         outtakeServo = hardwareMap.get(Servo.class, "outtake");
 

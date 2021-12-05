@@ -1,11 +1,20 @@
 package org.firstinspires.ftc.teamcode.common.commandbase.subsystem;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.Servo;
 
+@Config
 public class ArmSubsystem extends SubsystemBase {
-    private Servo leftArmServo;
-    private Servo rightArmServo;
+    private final Servo leftArmServo;
+    private final Servo rightArmServo;
+
+    public static double leftArmIntakePosition = 0;
+    public static double rightArmIntakePosition = 1;
+
+    public static double leftArmOuttakePosition = 0.65;
+    public static double rightArmOuttakePosition = 0.35;
+
 
     public ArmSubsystem(Servo leftArmServo, Servo rightArmServo) {
         this.leftArmServo = leftArmServo;
@@ -13,12 +22,12 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public void intake() {
-        leftArmServo.setPosition(0);
-        rightArmServo.setPosition(1);
+        leftArmServo.setPosition(leftArmIntakePosition);
+        rightArmServo.setPosition(rightArmIntakePosition);
     }
 
     public void outtake() {
-        leftArmServo.setPosition(0.65);
-        rightArmServo.setPosition(0.35);
+        leftArmServo.setPosition(leftArmOuttakePosition);
+        rightArmServo.setPosition(rightArmOuttakePosition);
     }
 }
