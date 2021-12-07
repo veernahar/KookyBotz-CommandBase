@@ -17,7 +17,6 @@ import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DumpSubsystem
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.TurretSubsystem;
 
 public class Robot {
-    public final MecanumDrive drive;
     public final LiftSubsystem lift;
     public final ArmSubsystem arm;
     public final IntakeSubsystem intake;
@@ -26,27 +25,7 @@ public class Robot {
     public final DuckSubsystem ducc;
 
     public Robot(HardwareMap hardwareMap) {
-        MotorEx rf = new MotorEx(hardwareMap, "rf");
-        MotorEx rb = new MotorEx(hardwareMap, "rb");
-        MotorEx lf = new MotorEx(hardwareMap, "lf");
-        MotorEx lb = new MotorEx(hardwareMap, "lb");
 
-        rf.motorEx.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rb.motorEx.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        lf.motorEx.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        lb.motorEx.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        rf.motorEx.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rb.motorEx.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        lf.motorEx.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        lb.motorEx.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        rf.motorEx.setDirection(DcMotorSimple.Direction.REVERSE);
-        rb.motorEx.setDirection(DcMotorSimple.Direction.REVERSE);
-        lf.motorEx.setDirection(DcMotorSimple.Direction.REVERSE);
-        lb.motorEx.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        drive = new MecanumDrive(lf, rf, lb, rb);
 
         MotorEx leftSlide = new MotorEx(hardwareMap, "slideL");
         MotorEx rightSlide = new MotorEx(hardwareMap, "slideR");
