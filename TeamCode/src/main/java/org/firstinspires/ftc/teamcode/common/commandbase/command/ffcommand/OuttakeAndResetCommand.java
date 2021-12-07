@@ -20,9 +20,9 @@ public class OuttakeAndResetCommand extends SequentialCommandGroup {
                 new WaitCommand(1000),
                 new DumpIntakeCommand(dump),
                 new LiftRetractCommand(lift),
-                new WaitCommand(1000),
+                new WaitCommand(750),
                 new ArmIntakeCommand(arm),
-                new WaitCommand(1000),
+                new WaitCommand(750),
                 new IntakeStartCommand(intake)
         );
     }
