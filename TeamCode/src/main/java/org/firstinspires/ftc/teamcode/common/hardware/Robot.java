@@ -36,6 +36,11 @@ public class Robot {
         lf.motorEx.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         lb.motorEx.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        rf.motorEx.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rb.motorEx.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        lf.motorEx.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        lb.motorEx.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         rf.motorEx.setDirection(DcMotorSimple.Direction.REVERSE);
         rb.motorEx.setDirection(DcMotorSimple.Direction.REVERSE);
         lf.motorEx.setDirection(DcMotorSimple.Direction.REVERSE);

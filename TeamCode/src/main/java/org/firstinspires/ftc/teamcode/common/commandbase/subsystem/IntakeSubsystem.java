@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @Config
@@ -34,6 +35,10 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public boolean hasFreight() {
-        return distanceSensor.getDistance(DistanceUnit.CM) < 7;
+        return distanceSensor.getDistance(DistanceUnit.CM) < 5.1;
+    }
+
+    public double getCurrentDrawA(){
+        return intakeMotor.motorEx.getCurrent(CurrentUnit.AMPS);
     }
 }
