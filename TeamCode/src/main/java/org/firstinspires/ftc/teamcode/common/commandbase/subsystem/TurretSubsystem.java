@@ -10,7 +10,7 @@ public class TurretSubsystem extends SubsystemBase {
 
     public static double intakePosition = 0.48;
     public static double outtakeRedPosition = 0.8;
-    public static double outtakeBluePosition = 0;
+    public static double outtakeBluePosition = 0.16;
 
     public TurretSubsystem(Servo turretServo) {
         this.turretServo = turretServo;
