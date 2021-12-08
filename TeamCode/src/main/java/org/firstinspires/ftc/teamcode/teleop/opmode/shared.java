@@ -12,12 +12,15 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.IntakeAndExtendCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.IntakeAndExtendSharedCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.OuttakeAndResetCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.OuttakeAndResetSharedCommand;
+import org.firstinspires.ftc.teamcode.common.ff.ALLIANCE;
 import org.firstinspires.ftc.teamcode.common.ff.STATE;
 import org.firstinspires.ftc.teamcode.common.hardware.Robot;
 
 @TeleOp
-public class teleop extends CommandOpMode {
+public class shared extends CommandOpMode {
     private Robot robot;
     private GamepadEx gamepadEx1, gamepadEx2;
     private STATE state = STATE.INTAKE;
@@ -63,7 +66,7 @@ public class teleop extends CommandOpMode {
                     if (state == STATE.REST) {
                         schedule(
                                 new SequentialCommandGroup(
-                                        new OuttakeAndResetCommand(robot.dump, robot.lift, robot.arm, robot.intake),
+                                        new OuttakeAndResetSharedCommand(robot.dump, robot.lift, robot.arm, robot.intake, robot.turret),
                                         new InstantCommand(() -> state = state.next())
                                 )
                         );
@@ -86,7 +89,7 @@ public class teleop extends CommandOpMode {
         if (robot.intake.hasFreight() && state == STATE.INTAKE) {
             System.out.println("has stuff");
             schedule(
-                    new IntakeAndExtendCommand(robot.dump, robot.lift, robot.arm, robot.intake)
+                    new IntakeAndExtendSharedCommand(ALLIANCE.RED, robot.lift, robot.arm, robot.dump, robot.turret, robot.intake)
             );
             state = state.next();
         }

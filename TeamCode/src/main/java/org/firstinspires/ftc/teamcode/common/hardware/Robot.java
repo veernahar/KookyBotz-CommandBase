@@ -30,6 +30,9 @@ public class Robot {
         MotorEx leftSlide = new MotorEx(hardwareMap, "slideL");
         MotorEx rightSlide = new MotorEx(hardwareMap, "slideR");
 
+        leftSlide.motorEx.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightSlide.motorEx.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         lift = new LiftSubsystem(leftSlide, rightSlide);
 
         Servo leftArm = hardwareMap.get(Servo.class, "arm1");

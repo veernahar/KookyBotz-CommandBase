@@ -10,7 +10,7 @@ public class DumpSubsystem extends SubsystemBase {
 
     public static double intakePosition = 0.675;
     public static double restPosition = 0.6;
-    public static double restPosition2 = 0.8;
+    public static double restPosition2 = 0.85;
     public static double outtakePosition = 0.4;
 
     public DumpSubsystem(Servo outtakseServo) {
@@ -27,6 +27,10 @@ public class DumpSubsystem extends SubsystemBase {
 
     public void rest2() {
         outtakeServo.setPosition(restPosition2);
+    }
+
+    public void shared(){
+
     }
 
     public void outtake() {

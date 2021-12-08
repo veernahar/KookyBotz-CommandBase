@@ -20,7 +20,7 @@ public class LiftSubsystem extends SubsystemBase {
     public static int max = 600;
 
     public static int intakePos = 0;
-    public static int outtakePos = 475;
+    public static int outtakePos = 460;
 
     public int current = 0;
 
