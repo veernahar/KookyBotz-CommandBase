@@ -13,7 +13,7 @@ public class DuckSubsystem extends SubsystemBase {
     }
 
     public void leftOn() {
-        left.setPower(1);
+        left.setPower(-1);
     }
 
     public void leftOff() {
@@ -21,7 +21,7 @@ public class DuckSubsystem extends SubsystemBase {
     }
 
     public void rightOn() {
-        right.setPower(-1);
+        right.setPower(1);
     }
 
     public void rightOff() {

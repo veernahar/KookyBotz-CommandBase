@@ -8,7 +8,6 @@ import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
@@ -21,16 +20,17 @@ import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.Outta
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intakecommand.IntakeStartCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intakecommand.IntakeStopCommand;
 import org.firstinspires.ftc.teamcode.common.ff.ALLIANCE;
+import org.firstinspires.ftc.teamcode.common.ff.MODE;
 import org.firstinspires.ftc.teamcode.common.ff.STATE;
 import org.firstinspires.ftc.teamcode.common.hardware.Robot;
 
-@TeleOp
-public class shared extends CommandOpMode {
+public class teleop extends CommandOpMode {
     private Robot robot;
     private GamepadEx gamepadEx1, gamepadEx2;
     private STATE state = STATE.INTAKE;
+    private MODE mode = MODE.SHARED;
+    public ALLIANCE alliance;
     private MecanumDrive drive;
-
 
     @Override
     public void initialize() {
@@ -70,10 +70,16 @@ public class shared extends CommandOpMode {
                 () -> {
                     if (state == STATE.REST) {
                         schedule(
-                                new SequentialCommandGroup(
-                                        new OuttakeAndResetSharedCommand(robot.dump, robot.lift, robot.arm, robot.intake, robot.turret),
-                                        new InstantCommand(() -> state = state.next())
-                                )
+                                mode == MODE.SHARED ?
+                                        new SequentialCommandGroup(
+                                                new OuttakeAndResetSharedCommand(robot.dump, robot.lift, robot.arm, robot.intake, robot.turret),
+                                                new InstantCommand(() -> state = state.next())
+                                        )
+                                        :
+                                        new SequentialCommandGroup(
+                                                new OuttakeAndResetCommand(robot.dump, robot.lift, robot.arm, robot.intake),
+                                                new InstantCommand(() -> state = state.next())
+                                        )
                         );
                     }
                 }
@@ -81,23 +87,25 @@ public class shared extends CommandOpMode {
 
 
         gamepadEx2.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
-                () -> {
-                    schedule(
-                            new IntakeStopCommand(robot.intake),
-                            new ArmOuttakeCommand(robot.arm)
-                    );
-                }
+                () -> schedule(
+                        new IntakeStopCommand(robot.intake),
+                        new ArmOuttakeCommand(robot.arm)
+                )
         ).whenReleased(
-                () -> {
-                    schedule(
-                            new SequentialCommandGroup(
-                                    new ArmIntakeCommand(robot.arm),
-                                    new WaitCommand(1000),
-                                    new IntakeStartCommand(robot.intake)
-                            )
-                    );
-                }
+                () -> schedule(
+                        new SequentialCommandGroup(
+                                new ArmIntakeCommand(robot.arm),
+                                new WaitCommand(1000),
+                                new IntakeStartCommand(robot.intake)
+                        )
+                )
         );
+
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(robot.ducc::rightOn).whenReleased(robot.ducc::rightOff);
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(robot.ducc::leftOn).whenReleased(robot.ducc::leftOff);
+
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(this::shared);
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(this::specific);
     }
 
     @Override
@@ -114,17 +122,31 @@ public class shared extends CommandOpMode {
         if (robot.intake.hasFreight() && state == STATE.INTAKE) {
             System.out.println("has stuff");
             schedule(
-                    new IntakeAndExtendSharedCommand(ALLIANCE.RED, robot.lift, robot.arm, robot.dump, robot.turret, robot.intake)
+                    mode == MODE.SHARED ?
+                            new IntakeAndExtendSharedCommand(alliance, robot.lift, robot.arm, robot.dump, robot.turret, robot.intake)
+                            :
+                            new IntakeAndExtendCommand(robot.dump, robot.lift, robot.arm, robot.intake)
             );
             state = state.next();
         }
 
         telemetry.addData("slide", robot.lift.getCurrentDrawA());
         telemetry.addData("intake", robot.intake.getCurrentDrawA());
+        telemetry.addLine(mode.toString());
+        telemetry.addLine(alliance.toString());
+        telemetry.addLine(state.toString());
         telemetry.update();
     }
 
     public double scale(double x, double k) {
         return (1 - k) * x + k * x * x * x;
+    }
+
+    public void shared() {
+        mode = MODE.SHARED;
+    }
+
+    public void specific() {
+        mode = MODE.SPECIFIC;
     }
 }

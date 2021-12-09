@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.teleop.opmode;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
@@ -11,8 +12,12 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import org.firstinspires.ftc.teamcode.common.commandbase.command.armcommand.ArmIntakeCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.armcommand.ArmOuttakeCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.IntakeAndExtendCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.OuttakeAndResetCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.intakecommand.IntakeStartCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.intakecommand.IntakeStopCommand;
 import org.firstinspires.ftc.teamcode.common.ff.STATE;
 import org.firstinspires.ftc.teamcode.common.hardware.Robot;
 
@@ -70,6 +75,28 @@ public class specific extends CommandOpMode {
                     }
                 }
         );
+
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
+                () -> {
+                    schedule(
+                            new IntakeStopCommand(robot.intake),
+                            new ArmOuttakeCommand(robot.arm)
+                    );
+                }
+        ).whenReleased(
+                () -> {
+                    schedule(
+                            new SequentialCommandGroup(
+                                    new ArmIntakeCommand(robot.arm),
+                                    new WaitCommand(1000),
+                                    new IntakeStartCommand(robot.intake)
+                            )
+                    );
+                }
+        );
+
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(robot.ducc::rightOn).whenReleased(robot.ducc::rightOff);
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(robot.ducc::leftOn).whenReleased(robot.ducc::leftOff);
     }
 
     @Override
