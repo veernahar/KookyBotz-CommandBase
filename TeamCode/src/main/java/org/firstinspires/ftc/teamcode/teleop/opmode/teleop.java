@@ -106,6 +106,8 @@ public class teleop extends CommandOpMode {
 
         gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(this::shared);
         gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(this::specific);
+
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(robot.lift::reset);
     }
 
     @Override
@@ -114,8 +116,8 @@ public class teleop extends CommandOpMode {
 
         // drive lol
         drive.driveRobotCentric(
-                scale(gamepadEx1.getLeftX(), 0.6) / ((gamepad1.right_trigger > 0.5) ? 1 : 1.5),
-                scale(gamepadEx1.getLeftY(), 0.6) / ((gamepad1.right_trigger > 0.5) ? 1 : 1.5),
+                scale(gamepadEx1.getLeftX(), 0.6) / ((gamepad1.right_trigger > 0.5) ? 1 : 1.5) / (mode == MODE.SHARED ? 1.5 : 1),
+                scale(gamepadEx1.getLeftY(), 0.6) / ((gamepad1.right_trigger > 0.5) ? 1 : 1.5) / (mode == MODE.SHARED ? 1.5 : 1),
                 scale(gamepadEx1.getRightX(), 0.6) / ((gamepad1.right_trigger > 0.5) ? 1 : 1.5)
         );
 

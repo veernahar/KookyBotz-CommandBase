@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.rr.RRMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 @TeleOp
-public class auto extends CommandOpMode {
+public class red_auto extends CommandOpMode {
     private Robot robot;
     private RRMecanumDrive rrMecanumDrive;
 
@@ -33,7 +33,7 @@ public class auto extends CommandOpMode {
         robot.turret.intake();
 
         Pose2d CYCLE_START = new Pose2d(12, -65, toRadians(0));
-        Pose2d CYCLE_DEPOSIT = new Pose2d(6, -54, toRadians(-59));
+        Pose2d CYCLE_DEPOSIT = new Pose2d(6, -54, toRadians(-55));
         Pose2d[] GAP = new Pose2d[]{
                 new Pose2d(12, -64, toRadians(0)),
                 new Pose2d(12, -64, toRadians(0)),
@@ -127,12 +127,12 @@ public class auto extends CommandOpMode {
     }
 
     public void restPose() {
-        Pose2d current = rrMecanumDrive.getPoseEstimate();
-        Pose2d reset = new Pose2d(
-                current.getX(),
-                -64,
-                current.getHeading()
-        );
-        rrMecanumDrive.setPoseEstimate(reset);
+//        Pose2d current = rrMecanumDrive.getPoseEstimate();
+//        Pose2d reset = new Pose2d(
+//                current.getX(),
+//                -64,
+//                current.getHeading()
+//        );
+//        rrMecanumDrive.setPoseEstimate(reset);
     }
 }

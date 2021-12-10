@@ -133,7 +133,8 @@ public class RRMecanumDrive extends MecanumDrive {
         // TODO: if desired, use setLocalizer() to change the localization method
         // for instance, setLocalizer(new ThreeTrackingWheelLocalizer(...));
 
-        setLocalizer(new StandardTrackingWheelLocalizer(hardwareMap, offsetRadians));
+        //setLocalizer(new StandardTrackingWheelLocalizer(hardwareMap, offsetRadians));
+        setLocalizer(new TwoWheelLocalizer(hardwareMap));
 
         trajectorySequenceRunner = new TrajectorySequenceRunner(follower, HEADING_PID);
     }

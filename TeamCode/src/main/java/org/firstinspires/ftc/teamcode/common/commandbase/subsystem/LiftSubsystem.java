@@ -59,6 +59,11 @@ public class LiftSubsystem extends SubsystemBase {
         setPos(intakePos);
     }
 
+    public void reset() {
+        leftMotor.motorEx.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightMotor.motorEx.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+
     public double getCurrentDrawA() {
         return leftMotor.motorEx.getCurrent(CurrentUnit.AMPS) + rightMotor.motorEx.getCurrent(CurrentUnit.AMPS);
     }
