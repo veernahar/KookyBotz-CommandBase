@@ -8,6 +8,7 @@ import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
@@ -24,6 +25,7 @@ import org.firstinspires.ftc.teamcode.common.ff.MODE;
 import org.firstinspires.ftc.teamcode.common.ff.STATE;
 import org.firstinspires.ftc.teamcode.common.hardware.Robot;
 
+@Disabled
 public class teleop extends CommandOpMode {
     private Robot robot;
     private GamepadEx gamepadEx1, gamepadEx2;

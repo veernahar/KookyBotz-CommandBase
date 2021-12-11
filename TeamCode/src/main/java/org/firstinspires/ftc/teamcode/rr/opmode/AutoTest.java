@@ -4,6 +4,7 @@ import static java.lang.Math.toRadians;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.rr.RRMecanumDrive;
@@ -12,6 +13,8 @@ import org.firstinspires.ftc.teamcode.rr.RRMecanumDrive;
  * This is an example of a more complex path to really test the tuning.
  */
 @Autonomous(group = "drive")
+@Disabled
+
 public class AutoTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
