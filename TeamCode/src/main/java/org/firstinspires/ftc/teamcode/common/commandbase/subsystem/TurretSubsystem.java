@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class TurretSubsystem extends SubsystemBase {
     private final Servo turretServo;
 
-    public static double intakePosition = 0.48;
+    public static double intakePosition = 0.5;
     public static double outtakeRedPosition = 0.8;
     public static double outtakeBluePosition = 0.16;
 

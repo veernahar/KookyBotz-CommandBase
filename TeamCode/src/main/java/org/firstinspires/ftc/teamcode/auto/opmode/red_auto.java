@@ -32,19 +32,17 @@ public class red_auto extends CommandOpMode {
         robot.dump.intake();
         robot.turret.intake();
 
-        Pose2d CYCLE_START = new Pose2d(12, -65, toRadians(0));
+        Pose2d CYCLE_START = new Pose2d(12, -64.25, toRadians(0));
         Pose2d CYCLE_DEPOSIT = new Pose2d(6, -54, toRadians(-55));
         Pose2d[] GAP = new Pose2d[]{
-                new Pose2d(12, -64, toRadians(0)),
-                new Pose2d(12, -64, toRadians(0)),
-                new Pose2d(12, -64, toRadians(0)),
-                new Pose2d(12, -64, toRadians(0))
+                new Pose2d(12, -64, toRadians(-2)),
+                new Pose2d(12, -64, toRadians(-2)),
+                new Pose2d(12, -64, toRadians(-2)),
         };
         Pose2d[] CYCLE_COLLECT = new Pose2d[]{
-                new Pose2d(40, -64, toRadians(0)),
-                new Pose2d(42, -64, toRadians(0)),
-                new Pose2d(45, -64, toRadians(0)),
-                new Pose2d(40, -64, toRadians(0))
+                new Pose2d(46, -64, toRadians(-2)),
+                new Pose2d(49, -64, toRadians(-2)),
+                new Pose2d(40, -64, toRadians(-2)),
         };
 
         rrMecanumDrive.getLocalizer().setPoseEstimate(CYCLE_START);
@@ -61,7 +59,7 @@ public class red_auto extends CommandOpMode {
         TrajectorySequence cycle1 = rrMecanumDrive.trajectorySequenceBuilder(CYCLE_COLLECT[0])
                 .lineTo(GAP[1].vec())
                 .lineToSplineHeading(CYCLE_DEPOSIT)
-                .waitSeconds(0.5)
+                .waitSeconds(1)
                 .lineToSplineHeading(GAP[1])
                 .addTemporalMarker(this::restPose)
                 .lineTo(CYCLE_COLLECT[1].vec())
@@ -70,19 +68,10 @@ public class red_auto extends CommandOpMode {
         TrajectorySequence cycle2 = rrMecanumDrive.trajectorySequenceBuilder(CYCLE_COLLECT[1])
                 .lineTo(GAP[2].vec())
                 .lineToSplineHeading(CYCLE_DEPOSIT)
-                .waitSeconds(0.5)
+                .waitSeconds(1)
                 .lineToSplineHeading(GAP[2])
                 .addTemporalMarker(this::restPose)
                 .lineTo(CYCLE_COLLECT[2].vec())
-                .build();
-
-        TrajectorySequence cycle3 = rrMecanumDrive.trajectorySequenceBuilder(CYCLE_COLLECT[2])
-                .lineTo(GAP[3].vec())
-                .lineToSplineHeading(CYCLE_DEPOSIT)
-                .waitSeconds(0.5)
-                .lineToSplineHeading(GAP[3])
-                .addTemporalMarker(this::restPose)
-                .lineTo(CYCLE_COLLECT[3].vec())
                 .build();
 
         schedule(
@@ -97,19 +86,13 @@ public class red_auto extends CommandOpMode {
                         new ParallelCommandGroup( // cycles
                                 new FollowTrajectoryCommand(rrMecanumDrive, cycle1),
                                 new IntakeAndExtendCommand(robot.dump, robot.lift, robot.arm, robot.intake)
-                                        .andThen(new WaitCommand(1700))
+                                        .andThen(new WaitCommand(1950))
                                         .andThen(new OuttakeAndResetCommand(robot.dump, robot.lift, robot.arm, robot.intake))
                         ),
                         new ParallelCommandGroup(
                                 new FollowTrajectoryCommand(rrMecanumDrive, cycle2),
                                 new IntakeAndExtendCommand(robot.dump, robot.lift, robot.arm, robot.intake)
                                         .andThen(new WaitCommand(1950))
-                                        .andThen(new OuttakeAndResetCommand(robot.dump, robot.lift, robot.arm, robot.intake))
-                        ),
-                        new ParallelCommandGroup(
-                                new FollowTrajectoryCommand(rrMecanumDrive, cycle3),
-                                new IntakeAndExtendCommand(robot.dump, robot.lift, robot.arm, robot.intake)
-                                        .andThen(new WaitCommand(2200))
                                         .andThen(new OuttakeAndResetCommand(robot.dump, robot.lift, robot.arm, robot.intake))
                         ),
                         new InstantCommand(robot.intake::stop)
