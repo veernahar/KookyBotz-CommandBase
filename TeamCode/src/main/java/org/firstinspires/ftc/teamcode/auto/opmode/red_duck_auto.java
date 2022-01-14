@@ -81,6 +81,9 @@ public class red_duck_auto extends OpMode {
                 .setReversed(true)
                 .lineToLinearHeading(CYCLE_DEPOSIT)
                 .waitSeconds(4)
+                .build();
+
+        duck = autonomousDrivetrain.trajectorySequenceBuilder(CYCLE_DEPOSIT)
                 .lineToLinearHeading(DUCK)
                 .strafeLeft(3)
                 .build();
@@ -98,15 +101,15 @@ public class red_duck_auto extends OpMode {
 
         CommandScheduler.getInstance().schedule(
                 new SequentialCommandGroup(
-                        //preload
-                        new FollowTrajectoryCommand(autonomousDrivetrain, preload),
-                                //.alongWith(preload(position)),
+
+                        new FollowTrajectoryCommand(autonomousDrivetrain, preload).alongWith(preload(position)),
                         new InstantCommand(robot.intake::stop),
 
                         //duck
-//                        new DuckRedCommand(robot.ducc),
-//                        new WaitCommand(4000),
-//                        new DuckOffCommand(robot.ducc),
+                        new FollowTrajectoryCommand(autonomousDrivetrain, duck),
+                        new DuckRedCommand(robot.ducc),
+                        new WaitCommand(4000),
+                        new DuckOffCommand(robot.ducc),
 
                         //park
                         new FollowTrajectoryCommand(autonomousDrivetrain, park)

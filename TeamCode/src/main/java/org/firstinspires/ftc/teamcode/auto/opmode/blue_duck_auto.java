@@ -40,8 +40,8 @@ public class blue_duck_auto extends OpMode {
 
     Pose2d CYCLE_START = new Pose2d(-34, 62, toRadians(90));
     Pose2d CYCLE_DEPOSIT = new Pose2d(-30, 56, toRadians(115));
-    Pose2d DUCK = new Pose2d(-64, 48, toRadians(90));
-    Pose2d PARK = new Pose2d(-64, 35, toRadians(90));
+    Pose2d DUCK = new Pose2d(-60, 54, toRadians(90));
+    Pose2d PARK = new Pose2d(-60, 40, toRadians(90));
 
     @Override
     public void init() {
@@ -100,8 +100,8 @@ public class blue_duck_auto extends OpMode {
 
         CommandScheduler.getInstance().schedule(
                 new SequentialCommandGroup(
-                        //preload
-                        preload(position),
+
+                        new FollowTrajectoryCommand(autonomousDrivetrain, preload).alongWith(preload(position)),
                         new InstantCommand(robot.intake::stop),
 
                         //duck
@@ -122,29 +122,23 @@ public class blue_duck_auto extends OpMode {
     public Command preload(BarcodePipeline.BarcodePosition position) {
         switch (position) {
             case LEFT:
-                return
-                        new SequentialCommandGroup(
-                                new IntakeAndExtendLowCommand(robot.dump, robot.lift, robot.arm, robot.intake),
-                                new WaitCommand(750),
-                                new OuttakeAndResetMidLowCommand(robot.dump, robot.lift, robot.arm, robot.intake)
-                        ).alongWith(new FollowTrajectoryCommand(autonomousDrivetrain, preload));
-
+                return new SequentialCommandGroup(
+                        new IntakeAndExtendLowCommand(robot.dump, robot.lift, robot.arm, robot.intake),
+                        new WaitCommand(750),
+                        new OuttakeAndResetMidLowCommand(robot.dump, robot.lift, robot.arm, robot.intake)
+                );
             case CENTER:
-                return
-                        new SequentialCommandGroup(
-                                new IntakeAndExtendMidCommand(robot.dump, robot.lift, robot.arm, robot.intake),
-                                new WaitCommand(750),
-                                new OuttakeAndResetMidLowCommand(robot.dump, robot.lift, robot.arm, robot.intake)
-                        ).alongWith(new FollowTrajectoryCommand(autonomousDrivetrain, preload));
-
+                return new SequentialCommandGroup(
+                        new IntakeAndExtendMidCommand(robot.dump, robot.lift, robot.arm, robot.intake),
+                        new WaitCommand(750),
+                        new OuttakeAndResetMidLowCommand(robot.dump, robot.lift, robot.arm, robot.intake)
+                );
             default:
-                return
-                        new SequentialCommandGroup(
-                                new IntakeAndExtendCommand(robot.dump, robot.lift, robot.arm, robot.intake),
-                                new WaitCommand(750),
-                                new OuttakeAndResetCommand(robot.dump, robot.lift, robot.arm, robot.intake)
-                        ).alongWith(new FollowTrajectoryCommand(autonomousDrivetrain, preload));
-
+                return new SequentialCommandGroup(
+                        new IntakeAndExtendCommand(robot.dump, robot.lift, robot.arm, robot.intake),
+                        new WaitCommand(750),
+                        new OuttakeAndResetCommand(robot.dump, robot.lift, robot.arm, robot.intake)
+                );
 
         }
     }

@@ -103,8 +103,7 @@ public class teleop extends CommandOpMode {
                 )
         );
 
-        GamepadEx2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(robot.ducc::blue).whenReleased(robot.ducc::off);
-        GamepadEx2.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(robot.ducc::red).whenReleased(robot.ducc::off);
+        GamepadEx2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(alliance == ALLIANCE.RED ? robot.ducc::red : robot.ducc::blue).whenReleased(robot.ducc::off);
 
         GamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(this::shared);
         GamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(this::specific);

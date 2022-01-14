@@ -99,8 +99,6 @@ public class ThreeWheelLocalizer extends ThreeTrackingWheelLocalizer {
             setPoseEstimate(newPose);
             time.reset();
         }
-
-        System.out.println(getWheelPositions().toString());
     }
 
     @NonNull
