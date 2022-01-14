@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.rr.RRMecanumDrive;
+import org.firstinspires.ftc.teamcode.rr.AutonomousDrivetrain;
 
 /*
  * This is an example of a more complex path to really test the tuning.
@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.rr.RRMecanumDrive;
 public class AutoTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        RRMecanumDrive drive = new RRMecanumDrive(hardwareMap);
+        AutonomousDrivetrain drive = new AutonomousDrivetrain(hardwareMap);
         Pose2d CYCLE_START = new Pose2d(12, -64, toRadians(0));
         Pose2d CYCLE_DEPOSIT = new Pose2d(6, -54, toRadians(-55));
         Pose2d[] GAP = new Pose2d[]{

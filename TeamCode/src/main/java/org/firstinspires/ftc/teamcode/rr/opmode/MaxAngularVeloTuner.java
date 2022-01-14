@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.rr.RRMecanumDrive;
+import org.firstinspires.ftc.teamcode.rr.AutonomousDrivetrain;
 
 import java.util.Objects;
 
@@ -34,7 +34,7 @@ public class MaxAngularVeloTuner extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        RRMecanumDrive drive = new RRMecanumDrive(hardwareMap);
+        AutonomousDrivetrain drive = new AutonomousDrivetrain(hardwareMap);
 
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 

@@ -17,10 +17,10 @@ public class LiftSubsystem extends SubsystemBase {
     private final MotorEx rightMotor;
 
     public static int min = 0;
-    public static int max = 600;
+    public static int max = 1550;
 
     public static int intakePos = 0;
-    public static int outtakePos = 460;
+    public static int outtakePos = 1525;
 
     public int current = 0;
 
@@ -44,11 +44,11 @@ public class LiftSubsystem extends SubsystemBase {
         leftMotor.motorEx.setTargetPosition(current);
         leftMotor.motorEx.setTargetPositionTolerance(25);
         leftMotor.motorEx.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        leftMotor.motorEx.setPower(0.65);
+        leftMotor.motorEx.setPower(1);
         rightMotor.motorEx.setTargetPosition(current);
         rightMotor.motorEx.setTargetPositionTolerance(25);
         rightMotor.motorEx.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        rightMotor.motorEx.setPower(0.65);
+        rightMotor.motorEx.setPower(1);
     }
 
     public void outtake() {
@@ -66,18 +66,5 @@ public class LiftSubsystem extends SubsystemBase {
 
     public double getCurrentDrawA() {
         return leftMotor.motorEx.getCurrent(CurrentUnit.AMPS) + rightMotor.motorEx.getCurrent(CurrentUnit.AMPS);
-    }
-
-    @Override
-    public void periodic() {
-        if (Math.abs(leftMotor.motorEx.getTargetPosition() - leftMotor.motorEx.getCurrentPosition()) < 25 && leftMotor.motorEx.getTargetPosition() == intakePos) {
-            leftMotor.motorEx.setPower(0);
-            rightMotor.motorEx.setPower(0);
-        } else {
-            normalize();
-        }
-
-
-        System.out.printf(Locale.ENGLISH, "current: %d, target: %d%n", leftMotor.motorEx.getCurrentPosition(), leftMotor.motorEx.getTargetPosition());
     }
 }

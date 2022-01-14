@@ -4,16 +4,16 @@ import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DumpSubsystem;
 
-public class DumpRest2Command extends CommandBase {
+public class DumpOpenCommand extends CommandBase {
     private DumpSubsystem outtake;
 
-    public DumpRest2Command(DumpSubsystem outtakeSubsystem) {
+    public DumpOpenCommand(DumpSubsystem outtakeSubsystem) {
         outtake = outtakeSubsystem;
     }
 
     @Override
     public void initialize() {
-        outtake.rest2();
+        outtake.open();
     }
 
 

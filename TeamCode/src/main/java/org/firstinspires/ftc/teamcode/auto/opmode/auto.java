@@ -28,7 +28,7 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
 @Autonomous
-public class red_auto extends OpMode {
+public class auto extends OpMode {
     private Robot robot;
     private AutonomousDrivetrain autonomousDrivetrain;
     private BarcodePipeline pipeline;
@@ -116,7 +116,7 @@ public class red_auto extends OpMode {
         CommandScheduler.getInstance().schedule(
                 new SequentialCommandGroup(
                         //preload
-                        new FollowTrajectoryCommand(autonomousDrivetrain, preload).alongWith(preload(position)),
+                        new FollowTrajectoryCommand(autonomousDrivetrain, preload),
 
                         //cycle 1
                         new FollowTrajectoryCommand(autonomousDrivetrain, pickup),
@@ -131,10 +131,9 @@ public class red_auto extends OpMode {
                         new MoveForwardUntilIntakeCommand(autonomousDrivetrain, robot.intake, 0.5),
                         new IntakeAndExtendCommand(robot.dump, robot.lift, robot.arm, robot.intake)
                                 .alongWith(new FollowTrajectoryCommand(autonomousDrivetrain, generateDrop())),
-                        new OuttakeAndResetCommand(robot.dump, robot.lift, robot.arm, robot.intake),
+                        new OuttakeAndResetCommand(robot.dump, robot.lift, robot.arm, robot.intake)
 
-                        //park
-                        new FollowTrajectoryCommand(autonomousDrivetrain, pickup)
+
                 )
 
 

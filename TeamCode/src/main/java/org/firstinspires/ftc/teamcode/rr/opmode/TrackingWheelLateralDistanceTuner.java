@@ -3,13 +3,12 @@ package org.firstinspires.ftc.teamcode.rr.opmode;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.util.Angle;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.RobotLog;
 
-import org.firstinspires.ftc.teamcode.rr.RRMecanumDrive;
-import org.firstinspires.ftc.teamcode.rr.StandardTrackingWheelLocalizer;
+import org.firstinspires.ftc.teamcode.rr.AutonomousDrivetrain;
+import org.firstinspires.ftc.teamcode.rr.ThreeWheelLocalizer;
 
 /**
  * Opmode designed to assist the user in tuning the `StandardTrackingWheelLocalizer`'s
@@ -64,16 +63,15 @@ import org.firstinspires.ftc.teamcode.rr.StandardTrackingWheelLocalizer;
  */
 @Config
 @TeleOp(group = "drive")
-@Disabled
 
 public class TrackingWheelLateralDistanceTuner extends LinearOpMode {
     public static int NUM_TURNS = 10;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        RRMecanumDrive drive = new RRMecanumDrive(hardwareMap);
+        AutonomousDrivetrain drive = new AutonomousDrivetrain(hardwareMap);
 
-        if (!(drive.getLocalizer() instanceof StandardTrackingWheelLocalizer)) {
+        if (!(drive.getLocalizer() instanceof ThreeWheelLocalizer)) {
             RobotLog.setGlobalErrorMsg("StandardTrackingWheelLocalizer is not being set in the "
                     + "drive class. Ensure that \"setLocalizer(new StandardTrackingWheelLocalizer"
                     + "(hardwareMap));\" is called in SampleMecanumDrive.java");
@@ -124,7 +122,7 @@ public class TrackingWheelLateralDistanceTuner extends LinearOpMode {
         telemetry.clearAll();
         telemetry.addLine("Localizer's total heading: " + Math.toDegrees(headingAccumulator) + "°");
         telemetry.addLine("Effective LATERAL_DISTANCE: " +
-                (headingAccumulator / (NUM_TURNS * Math.PI * 2)) * StandardTrackingWheelLocalizer.LATERAL_DISTANCE);
+                (headingAccumulator / (NUM_TURNS * Math.PI * 2)) * ThreeWheelLocalizer.LATERAL_DISTANCE);
 
         telemetry.update();
 

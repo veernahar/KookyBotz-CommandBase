@@ -7,33 +7,37 @@ import com.qualcomm.robotcore.hardware.Servo;
 @Config
 public class DumpSubsystem extends SubsystemBase {
     private final Servo outtakeServo;
+    private final Servo gateServo;
 
-    public static double intakePosition = 0.675;
-    public static double restPosition = 0.6;
-    public static double restPosition2 = 0.85;
-    public static double outtakePosition = 0.4;
+    public static double intakePosition = 0.9;
+    public static double outtakePosition = 0.6;
+    public static double sharedPosition = 0.8;
 
-    public DumpSubsystem(Servo outtakseServo) {
+    public static double closePosition = 0;
+    public static double openPosition = 0.5;
+
+    public DumpSubsystem(Servo outtakseServo, Servo gateServo) {
         this.outtakeServo = outtakseServo;
+        this.gateServo = gateServo;
     }
 
     public void intake() {
         outtakeServo.setPosition(intakePosition);
     }
 
-    public void rest1() {
-        outtakeServo.setPosition(restPosition);
-    }
-
-    public void rest2() {
-        outtakeServo.setPosition(restPosition2);
-    }
-
-    public void shared(){
-
-    }
-
     public void outtake() {
         outtakeServo.setPosition(outtakePosition);
+    }
+
+    public void shared() {
+        outtakeServo.setPosition(sharedPosition);
+    }
+
+    public void close() {
+        gateServo.setPosition(closePosition);
+    }
+
+    public void open() {
+        gateServo.setPosition(openPosition);
     }
 }

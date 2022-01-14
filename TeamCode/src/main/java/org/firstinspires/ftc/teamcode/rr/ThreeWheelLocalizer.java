@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.util.Encoder;
 
 import java.util.Arrays;
@@ -30,13 +31,13 @@ import java.util.List;
  *
  */
 @Config
-public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer {
+public class ThreeWheelLocalizer extends ThreeTrackingWheelLocalizer {
     public static double TICKS_PER_REV = 8192;
     public static double WHEEL_RADIUS = 0.689; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (encoder) speed
 
-    public static double LATERAL_DISTANCE = 5.31; // in; distance between the left and right wheels
-    public static double FORWARD_OFFSET = -8.56; // in; offset of the lateral wheel
+    public static double LATERAL_DISTANCE = 5.2299069; // in; distance between the left and right wheels
+    public static double FORWARD_OFFSET = -7.67; // in; offset of the lateral wheel
 
     public static double X_MULTIPLIER = 1; // Multiplier in the X direction
     public static double Y_MULTIPLIER = 1; // Multiplier in the Y direction
@@ -47,21 +48,22 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
 
     private ElapsedTime time;
 
-    //private final double offsetRadians;
 
-    public StandardTrackingWheelLocalizer(HardwareMap hardwareMap, double offsetRadians) {
+    private double startHeading;
+
+
+    public ThreeWheelLocalizer(HardwareMap hardwareMap, double startHeading) {
         super(Arrays.asList(
                 new Pose2d(0, LATERAL_DISTANCE / 2, 0), // left
                 new Pose2d(0, -LATERAL_DISTANCE / 2, 0), // right
                 new Pose2d(FORWARD_OFFSET, 0, Math.toRadians(90)) // front
         ));
 
-        leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "lf"));
-        rightEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "intake"));
-        frontEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "lb"));
+        leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "intake"));
+        rightEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "rf"));
+        frontEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "rb"));
 
         // TODO: reverse any encoders using Encoder.setDirection(Encoder.Direction.REVERSE)
-        rightEncoder.setDirection(Encoder.Direction.REVERSE);
         leftEncoder.setDirection(Encoder.Direction.REVERSE);
         frontEncoder.setDirection(Encoder.Direction.REVERSE);
 
@@ -79,7 +81,7 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
 
         time = new ElapsedTime();
 
-        //this.offsetRadians = offsetRadians;
+        this.startHeading = startHeading;
     }
 
     public static double encoderTicksToInches(double ticks) {
@@ -89,15 +91,16 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
     @Override
     public void update() {
         super.update();
-        
-        double accel = imu.getAngularVelocity().zRotationRate;
-        if (time.milliseconds() > 500 && Math.abs(accel) < 0.2) {
+
+        if(time.milliseconds() > 500 && imu.getAngularVelocity().zRotationRate < 0.1){
+            Pose2d pose = getPoseEstimate();
+            double angle = AngleUnit.normalizeRadians(imu.getAngularOrientation().firstAngle + startHeading);
+            Pose2d newPose = new Pose2d(pose.vec(), angle);
+            setPoseEstimate(newPose);
             time.reset();
-            setPoseEstimate(new Pose2d(getPoseEstimate().vec(), imu.getAngularOrientation().firstAngle));
-            System.out.println("reset");
         }
 
-        System.out.println(getWheelPositions().get(0)- getWheelPositions().get(1));
+        System.out.println(getWheelPositions().toString());
     }
 
     @NonNull

@@ -1,13 +1,11 @@
 package org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand;
 
-import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 
 import org.firstinspires.ftc.teamcode.common.commandbase.command.armcommand.ArmOuttakeCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.armcommand.ArmSharedCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.dumpcommand.DumpRest2Command;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.dumpcommand.DumpRestCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.dumpcommand.DumpCloseCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intakecommand.IntakeStopCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.turretcommand.TurretOuttakeBlueCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.turretcommand.TurretOuttakeRedCommand;
@@ -24,11 +22,10 @@ public class IntakeAndExtendSharedCommand extends SequentialCommandGroup {
             addCommands(
                     new WaitCommand(250),
                     new IntakeStopCommand(intake),
-                    new DumpRestCommand(dump),
+                    new DumpCloseCommand(dump),
                     new WaitCommand(250),
                     new ArmOuttakeCommand(arm),
                     new WaitCommand(500),
-                    new DumpRest2Command(dump),
                     new TurretOuttakeRedCommand(turret),
                     new WaitCommand(500),
                     new ArmSharedCommand(arm)
@@ -37,11 +34,10 @@ public class IntakeAndExtendSharedCommand extends SequentialCommandGroup {
             addCommands(
                     new WaitCommand(250),
                     new IntakeStopCommand(intake),
-                    new DumpRestCommand(dump),
+                    new DumpCloseCommand(dump),
                     new WaitCommand(250),
                     new ArmOuttakeCommand(arm),
                     new WaitCommand(500),
-                    new DumpRest2Command(dump),
                     new TurretOuttakeBlueCommand(turret),
                     new WaitCommand(500),
                     new ArmSharedCommand(arm)

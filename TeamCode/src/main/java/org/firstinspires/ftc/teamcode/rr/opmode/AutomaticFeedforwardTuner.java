@@ -15,7 +15,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.RobotLog;
 
 import org.firstinspires.ftc.robotcore.internal.system.Misc;
-import org.firstinspires.ftc.teamcode.rr.RRMecanumDrive;
+import org.firstinspires.ftc.teamcode.rr.AutonomousDrivetrain;
 import org.firstinspires.ftc.teamcode.util.LoggingUtil;
 import org.firstinspires.ftc.teamcode.util.RegressionUtil;
 
@@ -34,10 +34,9 @@ import java.util.List;
  */
 @Config
 @Autonomous(group = "drive")
-@Disabled
 public class AutomaticFeedforwardTuner extends LinearOpMode {
-    public static double MAX_POWER = 0.7;
-    public static double DISTANCE = 100; // in
+    public static double MAX_POWER = 0.5;
+    public static double DISTANCE = 60; // in
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -48,7 +47,7 @@ public class AutomaticFeedforwardTuner extends LinearOpMode {
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        RRMecanumDrive drive = new RRMecanumDrive(hardwareMap);
+        AutonomousDrivetrain drive = new AutonomousDrivetrain(hardwareMap);
 
         NanoClock clock = NanoClock.system();
 

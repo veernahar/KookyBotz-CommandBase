@@ -28,17 +28,17 @@ import org.firstinspires.ftc.teamcode.common.hardware.Robot;
 @Disabled
 public class teleop extends CommandOpMode {
     private Robot robot;
-    private GamepadEx gamepadEx1, gamepadEx2;
+    private GamepadEx GamepadEx1, GamepadEx2;
     private STATE state = STATE.INTAKE;
-    private MODE mode = MODE.SHARED;
+    private MODE mode = MODE.SPECIFIC;
     public ALLIANCE alliance;
     private MecanumDrive drive;
 
     @Override
     public void initialize() {
         robot = new Robot(hardwareMap);
-        gamepadEx1 = new GamepadEx(gamepad1);
-        gamepadEx2 = new GamepadEx(gamepad2);
+        GamepadEx1 = new GamepadEx(gamepad1);
+        GamepadEx2 = new GamepadEx(gamepad2);
 
         MotorEx rf = new MotorEx(hardwareMap, "rf");
         MotorEx rb = new MotorEx(hardwareMap, "rb");
@@ -56,7 +56,6 @@ public class teleop extends CommandOpMode {
         lb.motorEx.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         rf.motorEx.setDirection(DcMotorSimple.Direction.REVERSE);
-        rb.motorEx.setDirection(DcMotorSimple.Direction.REVERSE);
         lf.motorEx.setDirection(DcMotorSimple.Direction.REVERSE);
         lb.motorEx.setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -65,10 +64,11 @@ public class teleop extends CommandOpMode {
         robot.lift.intake();
         robot.arm.intake();
         robot.dump.intake();
+        robot.dump.open();
         robot.turret.intake();
         robot.intake.start();
 
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.A).whenPressed(
+        GamepadEx2.getGamepadButton(GamepadKeys.Button.A).whenPressed(
                 () -> {
                     if (state == STATE.REST) {
                         schedule(
@@ -88,7 +88,7 @@ public class teleop extends CommandOpMode {
         );
 
 
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
+        GamepadEx2.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
                 () -> schedule(
                         new IntakeStopCommand(robot.intake),
                         new ArmOuttakeCommand(robot.arm)
@@ -103,13 +103,13 @@ public class teleop extends CommandOpMode {
                 )
         );
 
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(robot.ducc::rightOn).whenReleased(robot.ducc::rightOff);
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(robot.ducc::leftOn).whenReleased(robot.ducc::leftOff);
+        GamepadEx2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(robot.ducc::blue).whenReleased(robot.ducc::off);
+        GamepadEx2.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(robot.ducc::red).whenReleased(robot.ducc::off);
 
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(this::shared);
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(this::specific);
+        GamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(this::shared);
+        GamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(this::specific);
 
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(robot.lift::reset);
+        GamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(robot.lift::reset);
     }
 
     @Override
@@ -117,10 +117,11 @@ public class teleop extends CommandOpMode {
         super.run();
 
         // drive lol
+
         drive.driveRobotCentric(
-                scale(gamepadEx1.getLeftX(), 0.6) / ((gamepad1.right_trigger > 0.5) ? 1 : 1.5) / (mode == MODE.SHARED ? 1.5 : 1),
-                scale(gamepadEx1.getLeftY(), 0.6) / ((gamepad1.right_trigger > 0.5) ? 1 : 1.5) / (mode == MODE.SHARED ? 1.5 : 1),
-                scale(gamepadEx1.getRightX(), 0.6) / ((gamepad1.right_trigger > 0.5) ? 1 : 1.5)
+                scale(GamepadEx1.getLeftX(), 0.6) * (gamepad1.right_trigger > 0.5 ? 1 : 0.75),
+                scale(GamepadEx1.getLeftY(), 0.6) * (gamepad1.right_trigger > 0.5 ? 1 : 0.75),
+                scale(GamepadEx1.getRightX(), 0.6) * (gamepad1.right_trigger > 0.5 ? 1 : 0.75)
         );
 
         if (robot.intake.hasFreight() && state == STATE.INTAKE) {

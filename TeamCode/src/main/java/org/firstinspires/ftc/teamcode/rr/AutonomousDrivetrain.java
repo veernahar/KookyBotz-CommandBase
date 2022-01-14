@@ -52,9 +52,9 @@ import java.util.List;
  * Simple mecanum drive hardware implementation for REV hardware.
  */
 @Config
-public class RRMecanumDrive extends MecanumDrive {
-    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(8, 0, 0);
-    public static PIDCoefficients HEADING_PID = new PIDCoefficients(8, 0, 0);
+public class AutonomousDrivetrain extends MecanumDrive {
+    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(2, 0, 0);
+    public static PIDCoefficients HEADING_PID = new PIDCoefficients(2, 0, 0);
 
     public static double LATERAL_MULTIPLIER = 1;
 
@@ -75,11 +75,11 @@ public class RRMecanumDrive extends MecanumDrive {
     private BNO055IMU imu;
     private VoltageSensor batteryVoltageSensor;
 
-    public RRMecanumDrive(HardwareMap hardwareMap) {
+    public AutonomousDrivetrain(HardwareMap hardwareMap) {
         this(hardwareMap, 0);
     }
 
-    public RRMecanumDrive(HardwareMap hardwareMap, double offsetRadians) {
+    public AutonomousDrivetrain(HardwareMap hardwareMap, double offsetRadians) {
         super(kV, kA, kStatic, TRACK_WIDTH, TRACK_WIDTH, LATERAL_MULTIPLIER);
 
         follower = new HolonomicPIDVAFollower(TRANSLATIONAL_PID, TRANSLATIONAL_PID, HEADING_PID,
@@ -108,6 +108,8 @@ public class RRMecanumDrive extends MecanumDrive {
         rightRear = hardwareMap.get(DcMotorEx.class, "rb");
         rightFront = hardwareMap.get(DcMotorEx.class, "rf");
 
+        rightRear.setDirection(DcMotorSimple.Direction.REVERSE);
+
         motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
 
         for (DcMotorEx motor : motors) {
@@ -134,7 +136,7 @@ public class RRMecanumDrive extends MecanumDrive {
         // for instance, setLocalizer(new ThreeTrackingWheelLocalizer(...));
 
         //setLocalizer(new StandardTrackingWheelLocalizer(hardwareMap, offsetRadians));
-        setLocalizer(new TwoWheelLocalizer(hardwareMap));
+        setLocalizer(new ThreeWheelLocalizer(hardwareMap, offsetRadians));
 
         trajectorySequenceRunner = new TrajectorySequenceRunner(follower, HEADING_PID);
     }

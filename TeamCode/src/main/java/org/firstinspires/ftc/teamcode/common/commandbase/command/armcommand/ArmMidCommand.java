@@ -4,21 +4,21 @@ import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.ArmSubsystem;
 
-public class ArmIntakeCommand extends CommandBase {
+public class ArmMidCommand extends CommandBase {
     private ArmSubsystem arm;
 
-    public ArmIntakeCommand(ArmSubsystem armSubsystem) {
+    public ArmMidCommand(ArmSubsystem armSubsystem) {
         arm = armSubsystem;
     }
 
     @Override
     public void initialize() {
-        arm.intake();
+        arm.mid();
     }
+
 
     @Override
     public boolean isFinished(){
         return true;
     }
-
 }

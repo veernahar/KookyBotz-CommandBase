@@ -4,21 +4,21 @@ import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DuckSubsystem;
 
-public class RightDuckOnCommand extends CommandBase {
+public class DuckBlueCommand extends CommandBase {
     private DuckSubsystem duck;
 
-    public RightDuckOnCommand(DuckSubsystem duckSubsystem){
+    public DuckBlueCommand(DuckSubsystem duckSubsystem) {
         duck = duckSubsystem;
     }
 
     @Override
-    public void initialize(){
-        duck.rightOn();
+    public void initialize() {
+        duck.blue();
     }
 
 
     @Override
-    public boolean isFinished(){
+    public boolean isFinished() {
         return true;
     }
 }
