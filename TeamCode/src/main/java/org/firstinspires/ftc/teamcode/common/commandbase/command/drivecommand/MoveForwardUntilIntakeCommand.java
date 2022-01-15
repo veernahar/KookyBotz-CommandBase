@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.common.commandbase.command.drivecommand;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.command.CommandBase;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.rr.AutonomousDrivetrain;
@@ -11,6 +12,7 @@ public class MoveForwardUntilIntakeCommand extends CommandBase {
     private AutonomousDrivetrain drive;
     private IntakeSubsystem intake;
     private double power;
+    private ElapsedTime time;
 
     public MoveForwardUntilIntakeCommand(AutonomousDrivetrain autonomousDrivetrain, IntakeSubsystem intake, double power) {
         drive = autonomousDrivetrain;
@@ -21,11 +23,12 @@ public class MoveForwardUntilIntakeCommand extends CommandBase {
     @Override
     public void initialize() {
         drive.setWeightedDrivePower(new Pose2d(power, 0, 0));
+        time = new ElapsedTime();
     }
 
     @Override
     public boolean isFinished() {
-        return intake.hasFreight();
+        return intake.hasFreight() || time.milliseconds() > 4000;
     }
 
     @Override

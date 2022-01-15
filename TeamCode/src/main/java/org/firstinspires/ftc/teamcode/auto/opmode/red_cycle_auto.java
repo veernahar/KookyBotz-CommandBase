@@ -7,6 +7,7 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -28,7 +29,7 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
 @Autonomous
-public class red_auto extends OpMode {
+public class red_cycle_auto extends OpMode {
     private Robot robot;
     private AutonomousDrivetrain autonomousDrivetrain;
     private BarcodePipeline pipeline;
@@ -115,7 +116,6 @@ public class red_auto extends OpMode {
 
         CommandScheduler.getInstance().schedule(
                 new SequentialCommandGroup(
-                        //preload
                         new FollowTrajectoryCommand(autonomousDrivetrain, preload).alongWith(preload(position)),
 
                         //cycle 1
@@ -145,29 +145,23 @@ public class red_auto extends OpMode {
     public Command preload(BarcodePipeline.BarcodePosition position) {
         switch (position) {
             case LEFT:
-                return
-                        new SequentialCommandGroup(
-                                new IntakeAndExtendLowCommand(robot.dump, robot.lift, robot.arm, robot.intake),
-                                new WaitCommand(750),
-                                new OuttakeAndResetMidLowCommand(robot.dump, robot.lift, robot.arm, robot.intake)
-                        ).alongWith(new FollowTrajectoryCommand(autonomousDrivetrain, preload));
-
+                return new SequentialCommandGroup(
+                        new IntakeAndExtendLowCommand(robot.dump, robot.lift, robot.arm, robot.intake),
+                        new WaitCommand(750),
+                        new OuttakeAndResetMidLowCommand(robot.dump, robot.lift, robot.arm, robot.intake)
+                );
             case CENTER:
-                return
-                        new SequentialCommandGroup(
-                                new IntakeAndExtendMidCommand(robot.dump, robot.lift, robot.arm, robot.intake),
-                                new WaitCommand(750),
-                                new OuttakeAndResetMidLowCommand(robot.dump, robot.lift, robot.arm, robot.intake)
-                        ).alongWith(new FollowTrajectoryCommand(autonomousDrivetrain, preload));
-
+                return new SequentialCommandGroup(
+                        new IntakeAndExtendMidCommand(robot.dump, robot.lift, robot.arm, robot.intake),
+                        new WaitCommand(750),
+                        new OuttakeAndResetMidLowCommand(robot.dump, robot.lift, robot.arm, robot.intake)
+                );
             default:
-                return
-                        new SequentialCommandGroup(
-                                new IntakeAndExtendCommand(robot.dump, robot.lift, robot.arm, robot.intake),
-                                new WaitCommand(750),
-                                new OuttakeAndResetCommand(robot.dump, robot.lift, robot.arm, robot.intake)
-                        ).alongWith(new FollowTrajectoryCommand(autonomousDrivetrain, preload));
-
+                return new SequentialCommandGroup(
+                        new IntakeAndExtendCommand(robot.dump, robot.lift, robot.arm, robot.intake),
+                        new WaitCommand(750),
+                        new OuttakeAndResetCommand(robot.dump, robot.lift, robot.arm, robot.intake)
+                );
 
         }
     }
