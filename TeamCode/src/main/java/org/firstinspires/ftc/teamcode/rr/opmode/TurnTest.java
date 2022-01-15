@@ -12,6 +12,7 @@ import org.firstinspires.ftc.teamcode.rr.AutonomousDrivetrain;
  */
 @Config
 @Autonomous(group = "drive")
+@Disabled
 
 public class TurnTest extends LinearOpMode {
     public static double ANGLE = 90; // deg

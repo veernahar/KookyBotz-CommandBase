@@ -25,6 +25,7 @@ import org.firstinspires.ftc.teamcode.rr.AutonomousDrivetrain;
  */
 @Config
 @Autonomous(group = "drive")
+@Disabled
 
 public class TrackWidthTuner extends LinearOpMode {
     public static double ANGLE = 180; // deg

@@ -34,6 +34,7 @@ import java.util.List;
  */
 @Config
 @Autonomous(group = "drive")
+@Disabled
 public class AutomaticFeedforwardTuner extends LinearOpMode {
     public static double MAX_POWER = 0.5;
     public static double DISTANCE = 60; // in
