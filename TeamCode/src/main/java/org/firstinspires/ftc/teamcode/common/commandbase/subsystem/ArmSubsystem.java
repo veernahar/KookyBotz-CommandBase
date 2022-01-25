@@ -23,8 +23,8 @@ public class ArmSubsystem extends SubsystemBase {
     public static double leftArmLowPosition = 0.88;
     public static double rightArmLowPosition = 0.04;
 
-    public static double leftArmSharedPosition = 0.8;
-    public static double rightArmSharedPosition = 0.11;
+    public static double leftArmSharedPosition = 0.84;
+    public static double rightArmSharedPosition = 0.07;
 
 
     public ArmSubsystem(Servo leftArmServo, Servo rightArmServo) {

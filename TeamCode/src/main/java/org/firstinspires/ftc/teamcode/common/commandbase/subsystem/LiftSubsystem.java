@@ -40,6 +40,10 @@ public class LiftSubsystem extends SubsystemBase {
         normalize();
     }
 
+    public double getPos() {
+        return current;
+    }
+
     public void normalize() {
         leftMotor.motorEx.setTargetPosition(current);
         leftMotor.motorEx.setTargetPositionTolerance(25);

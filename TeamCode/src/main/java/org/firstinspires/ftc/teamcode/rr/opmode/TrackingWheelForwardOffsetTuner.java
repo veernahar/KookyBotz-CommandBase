@@ -36,7 +36,6 @@ import org.firstinspires.ftc.teamcode.rr.ThreeWheelLocalizer;
  */
 @Config
 @Autonomous(group="drive")
-@Disabled
 
 public class TrackingWheelForwardOffsetTuner extends LinearOpMode {
     public static double ANGLE = 180; // deg

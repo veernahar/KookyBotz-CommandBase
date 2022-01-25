@@ -13,7 +13,7 @@ public class DumpSubsystem extends SubsystemBase {
     public static double outtakePosition = 0.6;
     public static double sharedPosition = 0.8;
 
-    public static double closePosition = 0;
+    public static double closePosition = 0.2;
     public static double openPosition = 0.5;
 
     public DumpSubsystem(Servo outtakseServo, Servo gateServo) {

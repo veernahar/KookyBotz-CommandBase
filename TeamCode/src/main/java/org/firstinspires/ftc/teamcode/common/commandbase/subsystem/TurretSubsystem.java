@@ -28,4 +28,12 @@ public class TurretSubsystem extends SubsystemBase {
     public void outtakeRed() {
         turretServo.setPosition(outtakeRedPosition);
     }
+
+    public void left() {
+        turretServo.setPosition(turretServo.getPosition() + 0.01);
+    }
+
+    public void right() {
+        turretServo.setPosition(turretServo.getPosition() - 0.01);
+    }
 }
