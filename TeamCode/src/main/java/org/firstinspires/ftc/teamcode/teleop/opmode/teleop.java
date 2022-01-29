@@ -2,28 +2,21 @@ package org.firstinspires.ftc.teamcode.teleop.opmode;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
-import com.arcrobotics.ftclib.command.WaitCommand;
-import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
-import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.armcommand.ArmIntakeCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.armcommand.ArmOuttakeCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.IntakeAndExtendCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.IntakeAndExtendSharedCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.IntakeAndExtendSharedOppositeCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.OuttakeAndResetCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.OuttakeAndResetSharedCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.ResetCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.intakecommand.IntakeStartCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.intakecommand.IntakeStopCommand;
 import org.firstinspires.ftc.teamcode.common.ff.ALLIANCE;
 import org.firstinspires.ftc.teamcode.common.ff.MODE;
 import org.firstinspires.ftc.teamcode.common.ff.STATE;
@@ -57,7 +50,7 @@ public class teleop extends CommandOpMode {
                 () -> {
                     if (state == STATE.REST) {
                         schedule(
-                                mode == MODE.SHARED ?
+                                mode == MODE.SHARED || mode == MODE.SHARED_OPPOSITE ?
                                         new SequentialCommandGroup(
                                                 new OuttakeAndResetSharedCommand(robot.dump, robot.lift, robot.arm, robot.intake, robot.turret),
                                                 new InstantCommand(() -> state = state.next())
@@ -75,15 +68,15 @@ public class teleop extends CommandOpMode {
         GamepadEx2.getGamepadButton(GamepadKeys.Button.Y).whenPressed(new ResetCommand(robot.dump, robot.lift, robot.arm, robot.intake, robot.turret, this));
 
 
-        GamepadEx2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(alliance == ALLIANCE.RED ? robot.ducc::red : robot.ducc::blue).whenReleased(robot.ducc::off);
+        GamepadEx1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(alliance == ALLIANCE.RED ? robot.ducc::red : robot.ducc::blue).whenReleased(robot.ducc::off);
 
-        GamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(this::toggle);
+        GamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(this::toggle);
 
-        GamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(robot.lift::reset);
+        // GamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(robot.lift::reset);
 
         GamepadEx2.getGamepadButton(GamepadKeys.Button.X).whenPressed(robot::up).whenReleased(robot::down);
 
-        GamepadEx2.getGamepadButton(GamepadKeys.Button.B).whenPressed(robot.intake::toggle);
+        GamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(robot.intake::toggle);
     }
 
     @Override
@@ -115,12 +108,7 @@ public class teleop extends CommandOpMode {
 
         if (robot.intake.hasFreight() && state == STATE.INTAKE) {
             System.out.println("has stuff");
-            schedule(
-                    mode == MODE.SHARED ?
-                            new IntakeAndExtendSharedCommand(alliance, robot.lift, robot.arm, robot.dump, robot.turret, robot.intake)
-                            :
-                            new IntakeAndExtendCommand(robot.dump, robot.lift, robot.arm, robot.intake)
-            );
+            schedule(extend());
             state = state.next();
         }
 
@@ -160,7 +148,28 @@ public class teleop extends CommandOpMode {
     }
 
     public void toggle() {
-        mode = mode == MODE.SHARED ? MODE.SPECIFIC : MODE.SHARED;
+        switch (mode) {
+            case SPECIFIC:
+                mode = MODE.SHARED;
+                break;
+            case SHARED:
+                mode = MODE.SHARED_OPPOSITE;
+                break;
+            default:
+                mode = MODE.SPECIFIC;
+                break;
+        }
+    }
+
+    public Command extend() {
+        switch (mode) {
+            case SPECIFIC:
+                return new IntakeAndExtendCommand(robot.dump, robot.lift, robot.arm, robot.intake);
+            case SHARED:
+                return new IntakeAndExtendSharedCommand(alliance, robot.lift, robot.arm, robot.dump, robot.turret, robot.intake);
+            default:
+                return new IntakeAndExtendSharedOppositeCommand(alliance, robot.lift, robot.arm, robot.dump, robot.turret, robot.intake);
+        }
     }
 
 }
