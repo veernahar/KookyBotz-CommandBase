@@ -30,6 +30,14 @@ public class IntakeSubsystem extends SubsystemBase {
         intakeMotor.motorEx.setPower(0);
     }
 
+    public void toggle(){
+        if(intakeMotor.motorEx.getPower() == intakePower){
+            stop();
+        }else{
+            start();
+        }
+    }
+
     public void reverse() {
         intakeMotor.motorEx.setPower(intakePower);
     }

@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.common.hardware;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
@@ -20,6 +21,7 @@ import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.TurretSubsyst
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvWebcam;
 
+@Config
 public class Robot {
     public final LiftSubsystem lift;
     public final ArmSubsystem arm;
@@ -28,6 +30,10 @@ public class Robot {
     public final TurretSubsystem turret;
     public final DuckSubsystem ducc;
     public final OpenCvWebcam webcam;
+    private final Servo odo;
+
+    public static double down = 0.76;
+    public static double up = 0.83;
 
 
     public Robot(HardwareMap hardwareMap) {
@@ -66,8 +72,20 @@ public class Robot {
 
         ducc = new DuckSubsystem(duckMotor);
 
+        odo = hardwareMap.servo.get("odo");
+
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
 
+    }
+
+    public void up(){
+        odo.setPosition(up);
+        arm.rest();
+    }
+
+    public void down(){
+        odo.setPosition(down);
+        arm.intake();
     }
 }

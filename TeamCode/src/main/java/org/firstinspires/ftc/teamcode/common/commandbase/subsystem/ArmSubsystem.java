@@ -14,6 +14,9 @@ public class ArmSubsystem extends SubsystemBase {
     public static double leftArmIntakePosition = 0.14;
     public static double rightArmIntakePosition = 0.78;
 
+    public static double leftArmRestPosition = 0.3;
+    public static double rightArmRestPosition = 0.62;
+
     public static double leftArmOuttakePosition = 0.61;
     public static double rightArmOuttakePosition = 0.31;
 
@@ -43,19 +46,23 @@ public class ArmSubsystem extends SubsystemBase {
         rightArmServo.setPosition(rightArmOuttakePosition);
     }
 
-    public void mid(){
+    public void mid() {
         leftArmServo.setPosition(leftArmMidPosition);
         rightArmServo.setPosition(rightArmMidPosition);
     }
 
-    public void low(){
+    public void low() {
         leftArmServo.setPosition(leftArmLowPosition);
         rightArmServo.setPosition(rightArmLowPosition);
     }
 
-    public void shared(){
+    public void shared() {
         leftArmServo.setPosition(leftArmSharedPosition);
         rightArmServo.setPosition(rightArmSharedPosition);
     }
 
+    public void rest(){
+        leftArmServo.setPosition(leftArmRestPosition);
+        rightArmServo.setPosition(rightArmRestPosition);
+    }
 }

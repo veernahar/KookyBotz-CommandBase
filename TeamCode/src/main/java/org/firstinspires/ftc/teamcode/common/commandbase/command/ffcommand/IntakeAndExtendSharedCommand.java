@@ -20,7 +20,7 @@ public class IntakeAndExtendSharedCommand extends SequentialCommandGroup {
     public IntakeAndExtendSharedCommand(ALLIANCE alliance, LiftSubsystem lift, ArmSubsystem arm, DumpSubsystem dump, TurretSubsystem turret, IntakeSubsystem intake) {
         if (alliance == ALLIANCE.RED) {
             addCommands(
-                    new WaitCommand(250),
+                    new WaitCommand(150),
                     new IntakeStopCommand(intake),
                     new DumpCloseCommand(dump),
                     new WaitCommand(250),
@@ -32,7 +32,7 @@ public class IntakeAndExtendSharedCommand extends SequentialCommandGroup {
             );
         } else {
             addCommands(
-                    new WaitCommand(250),
+                    new WaitCommand(150),
                     new IntakeStopCommand(intake),
                     new DumpCloseCommand(dump),
                     new WaitCommand(250),

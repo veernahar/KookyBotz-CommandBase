@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.teleop.opmode;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
@@ -13,6 +14,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.armcommand.ArmIntakeCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.armcommand.ArmOuttakeCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.IntakeAndExtendCommand;
@@ -70,15 +72,18 @@ public class teleop extends CommandOpMode {
                 }
         );
 
-        GamepadEx2.getGamepadButton(GamepadKeys.Button.Y).whenPressed(() -> schedule(new ResetCommand(robot.dump, robot.lift, robot.arm, robot.intake, robot.turret, this)));
+        GamepadEx2.getGamepadButton(GamepadKeys.Button.Y).whenPressed(new ResetCommand(robot.dump, robot.lift, robot.arm, robot.intake, robot.turret, this));
 
 
         GamepadEx2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(alliance == ALLIANCE.RED ? robot.ducc::red : robot.ducc::blue).whenReleased(robot.ducc::off);
 
         GamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(this::toggle);
-        ;
 
         GamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(robot.lift::reset);
+
+        GamepadEx2.getGamepadButton(GamepadKeys.Button.X).whenPressed(robot::up).whenReleased(robot::down);
+
+        GamepadEx2.getGamepadButton(GamepadKeys.Button.B).whenPressed(robot.intake::toggle);
     }
 
     @Override
@@ -87,13 +92,26 @@ public class teleop extends CommandOpMode {
 
         // drive lol
 
-        drive.setWeightedDrivePower(
-                new Pose2d(
-                        scale(GamepadEx1.getLeftY(), 0.6) * (gamepad1.right_trigger > 0.5 ? 1 : 0.75),
-                        -scale(GamepadEx1.getLeftX(), 0.6) * (gamepad1.right_trigger > 0.5 ? 1 : 0.75),
-                        -scale(GamepadEx1.getRightX(), 0.6) * (gamepad1.right_trigger > 0.5 ? 1 : 0.75)
-                )
-        );
+        if (GamepadEx2.getLeftX() != 0 || GamepadEx2.getLeftY() != 0 || GamepadEx2.getRightX() != 0) {
+            drive.setWeightedDrivePower(
+                    new Pose2d(
+                            new Vector2d(
+                                    dead(scale(GamepadEx2.getLeftY(), 0.6) / 2.0, 0.05),
+                                    dead(-scale(GamepadEx2.getLeftX(), 0.6) / 2.0, 0.05)
+                            ).rotated(AngleUnit.normalizeRadians(-drive.getLocalizer().getPoseEstimate().getHeading())),
+                            -scale(GamepadEx2.getRightX(), 0.6) / 2.0
+                    )
+            );
+        } else {
+            drive.setWeightedDrivePower(
+                    new Pose2d(
+                            scale(GamepadEx1.getLeftY(), 0.6) * (gamepad1.right_trigger > 0.5 ? 1 : 0.66),
+                            -scale(GamepadEx1.getLeftX(), 0.6) * (gamepad1.right_trigger > 0.5 ? 1 : 0.66),
+                            -scale(GamepadEx1.getRightX(), 0.6) * (gamepad1.right_trigger > 0.5 ? 1 : 0.66)
+                    )
+            );
+        }
+
 
         if (robot.intake.hasFreight() && state == STATE.INTAKE) {
             System.out.println("has stuff");
@@ -114,6 +132,14 @@ public class teleop extends CommandOpMode {
             }
         }
 
+        if (mode == MODE.SPECIFIC && state == STATE.REST) {
+            if (gamepad2.left_trigger > 0.5) {
+                robot.lift.intake();
+            } else if (gamepad2.right_trigger > 0.5) {
+                robot.lift.outtake();
+            }
+        }
+
         drive.update();
 
         telemetry.addData("slide", robot.lift.getCurrentDrawA());
@@ -121,11 +147,16 @@ public class teleop extends CommandOpMode {
         telemetry.addLine(mode.toString());
         telemetry.addLine(alliance.toString());
         telemetry.addLine(state.toString());
+        telemetry.addLine(drive.getPoseEstimate().toString());
         telemetry.update();
     }
 
     public double scale(double x, double k) {
         return (1 - k) * x + k * x * x * x;
+    }
+
+    public double dead(double x, double k) {
+        return Math.abs(x) > k ? x : 0;
     }
 
     public void toggle() {

@@ -40,7 +40,7 @@ public class LiftSubsystem extends SubsystemBase {
         normalize();
     }
 
-    public double getPos() {
+    public int getPos() {
         return current;
     }
 
@@ -70,5 +70,13 @@ public class LiftSubsystem extends SubsystemBase {
 
     public double getCurrentDrawA() {
         return leftMotor.motorEx.getCurrent(CurrentUnit.AMPS) + rightMotor.motorEx.getCurrent(CurrentUnit.AMPS);
+    }
+
+    @Override
+    public void periodic(){
+        if(!leftMotor.motorEx.isBusy()){
+            leftMotor.motorEx.setPower(0);
+            rightMotor.motorEx.setPower(0);
+        }
     }
 }

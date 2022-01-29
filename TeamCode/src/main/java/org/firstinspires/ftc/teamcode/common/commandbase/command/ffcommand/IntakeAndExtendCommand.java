@@ -15,10 +15,10 @@ import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.LiftSubsystem
 public class IntakeAndExtendCommand extends SequentialCommandGroup {
     public IntakeAndExtendCommand(DumpSubsystem dump, LiftSubsystem lift, ArmSubsystem arm, IntakeSubsystem intake) {
         super(
-                new WaitCommand(500),
-                new IntakeStopCommand(intake),
+                new WaitCommand(150),
                 new DumpCloseCommand(dump),
                 new WaitCommand(250),
+                new IntakeStopCommand(intake),
                 new ArmOuttakeCommand(arm),
                 new WaitCommand(250),
                 new LiftExtendCommand(lift)
