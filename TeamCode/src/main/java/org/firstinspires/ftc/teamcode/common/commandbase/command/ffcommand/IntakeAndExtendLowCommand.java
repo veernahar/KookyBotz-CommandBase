@@ -23,7 +23,7 @@ public class IntakeAndExtendLowCommand extends SequentialCommandGroup {
                 new WaitCommand(250),
                 new ArmLowCommand(arm),
                 new WaitCommand(250),
-                new LiftSetPosCommand(lift, 700)
+                new LiftSetPosCommand(lift, 900)
         );
     }
 }
