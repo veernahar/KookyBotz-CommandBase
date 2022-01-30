@@ -7,7 +7,6 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.CommandScheduler;
-import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -28,7 +27,7 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
 @Autonomous
-public class red_cycle_auto_2 extends OpMode {
+public class blue_cycle_auto_2 extends OpMode {
     private Robot robot;
     private AutonomousDrivetrain autonomousDrivetrain;
     private BarcodePipeline pipeline;
@@ -36,21 +35,21 @@ public class red_cycle_auto_2 extends OpMode {
 
     private TrajectorySequence preload, pickup1, drop1, pickup2, drop2, pickup3, drop3, park;
 
-    public static Pose2d CYCLE_START = new Pose2d(12, -62, toRadians(-90));
-    public static Pose2d CYCLE_DEPOSIT = new Pose2d(10, -56, toRadians(-52.5));
-    public static Pose2d PRELOAD_DEPOSIT = new Pose2d(10, -56, toRadians(-54));
+    public static Pose2d CYCLE_START = new Pose2d(12, 62, toRadians(90));
+    public static Pose2d CYCLE_DEPOSIT = new Pose2d(10, 56, toRadians(52));
+    public static Pose2d PRELOAD_DEPOSIT = new Pose2d(10, 56, toRadians(55));
 
     public static Pose2d[] GAP = new Pose2d[]{
-            new Pose2d(12, -64, toRadians(0)),
-            new Pose2d(12, -64.25, toRadians(0)),
-            new Pose2d(12, -64.5, toRadians(0)),
-            new Pose2d(12, -64.75, toRadians(0)),
+            new Pose2d(12, 64, toRadians(0)),
+            new Pose2d(12, 64.25, toRadians(0)),
+            new Pose2d(12, 64.5, toRadians(0)),
+            new Pose2d(12, 64.75, toRadians(0)),
     };
     public static Pose2d[] CYCLE_COLLECT = new Pose2d[]{
-            new Pose2d(39, -64, toRadians(0)),
-            new Pose2d(41.5, -64, toRadians(0)),
-            new Pose2d(44, -64, toRadians(0)),
-            new Pose2d(38, -64, toRadians(0)),
+            new Pose2d(39.5, 64, toRadians(0)),
+            new Pose2d(42, 64, toRadians(0)),
+            new Pose2d(44, 64, toRadians(0)),
+            new Pose2d(38, 64, toRadians(0)),
     };
 
     @Override
@@ -206,12 +205,6 @@ public class red_cycle_auto_2 extends OpMode {
         }
     }
 
-    public TrajectorySequence generateDrop() {
-        return autonomousDrivetrain.trajectorySequenceBuilder(autonomousDrivetrain.getPoseEstimate())
-                .lineToSplineHeading(GAP[2])
-                .lineToSplineHeading(CYCLE_DEPOSIT)
-                .build();
-    }
 
     @Override
     public void loop() {
