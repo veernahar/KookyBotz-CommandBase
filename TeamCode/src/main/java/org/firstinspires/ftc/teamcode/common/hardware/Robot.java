@@ -31,6 +31,7 @@ public class Robot {
     public final DuckSubsystem ducc;
     public final OpenCvWebcam webcam;
     private final Servo odo;
+    public final Rev2mDistanceSensor distanceSensor;
 
     public static double down = 0.76;
     public static double up = 0.83;
@@ -54,7 +55,7 @@ public class Robot {
 
         MotorEx intakeMotor = new MotorEx(hardwareMap, "intake");
         intakeMotor.motorEx.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        Rev2mDistanceSensor distanceSensor = hardwareMap.get(Rev2mDistanceSensor.class, "distance");
+        distanceSensor = hardwareMap.get(Rev2mDistanceSensor.class, "distance");
 
         intake = new IntakeSubsystem(intakeMotor, distanceSensor);
 

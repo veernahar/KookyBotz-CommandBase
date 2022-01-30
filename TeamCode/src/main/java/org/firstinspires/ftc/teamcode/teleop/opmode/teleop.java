@@ -6,11 +6,14 @@ import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.IntakeAndExtendCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.IntakeAndExtendSharedCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.IntakeAndExtendSharedOppositeCommand;
@@ -32,6 +35,9 @@ public class teleop extends CommandOpMode {
     private MODE mode = MODE.SPECIFIC;
     public ALLIANCE alliance;
 
+    private ElapsedTime timer;
+    private boolean flag;
+
     @Override
     public void initialize() {
         robot = new Robot(hardwareMap);
@@ -45,6 +51,12 @@ public class teleop extends CommandOpMode {
         robot.dump.open();
         robot.turret.intake();
         robot.intake.start();
+
+        GamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(alliance == ALLIANCE.RED ? robot.ducc::red : robot.ducc::blue).whenReleased(robot.ducc::off);
+
+        GamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(this::toggle);
+
+        GamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(robot.intake::toggle);
 
         GamepadEx2.getGamepadButton(GamepadKeys.Button.A).whenPressed(
                 () -> {
@@ -67,31 +79,30 @@ public class teleop extends CommandOpMode {
 
         GamepadEx2.getGamepadButton(GamepadKeys.Button.Y).whenPressed(new ResetCommand(robot.dump, robot.lift, robot.arm, robot.intake, robot.turret, this));
 
-
-        GamepadEx1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(alliance == ALLIANCE.RED ? robot.ducc::red : robot.ducc::blue).whenReleased(robot.ducc::off);
-
-        GamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(this::toggle);
-
-        // GamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(robot.lift::reset);
-
         GamepadEx2.getGamepadButton(GamepadKeys.Button.X).whenPressed(robot::up).whenReleased(robot::down);
-
-        GamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(robot.intake::toggle);
-    }
+      }
 
     @Override
     public void run() {
         super.run();
+
+        if (timer == null) {
+            timer = new ElapsedTime();
+        }
+
+        if (timer.seconds() > (120 - 35) && !flag) {
+            GamepadEx1.gamepad.rumble(1000);
+            GamepadEx2.gamepad.rumble(1000);
+            flag = true;
+        }
 
         // drive lol
 
         if (GamepadEx2.getLeftX() != 0 || GamepadEx2.getLeftY() != 0 || GamepadEx2.getRightX() != 0) {
             drive.setWeightedDrivePower(
                     new Pose2d(
-                            new Vector2d(
-                                    dead(scale(GamepadEx2.getLeftY(), 0.6) / 2.0, 0.05),
-                                    dead(-scale(GamepadEx2.getLeftX(), 0.6) / 2.0, 0.05)
-                            ).rotated(AngleUnit.normalizeRadians(-drive.getLocalizer().getPoseEstimate().getHeading())),
+                            dead(scale(GamepadEx2.getLeftY(), 0.6) / 2.0, 0.05),
+                            dead(-scale(GamepadEx2.getLeftX(), 0.6) / 2.0, 0.05),
                             -scale(GamepadEx2.getRightX(), 0.6) / 2.0
                     )
             );
@@ -110,9 +121,10 @@ public class teleop extends CommandOpMode {
             System.out.println("has stuff");
             schedule(extend());
             state = state.next();
+            schedule(new WaitCommand(500).andThen(new InstantCommand(() -> GamepadEx1.gamepad.rumble(500))));
         }
 
-        if (mode == MODE.SHARED && state == STATE.REST) {
+        if ((mode == MODE.SHARED || mode == MODE.SHARED_OPPOSITE) && state == STATE.REST) {
             if (gamepad2.left_trigger > 0.5) {
                 robot.turret.left();
             } else if (gamepad2.right_trigger > 0.5) {
@@ -135,6 +147,7 @@ public class teleop extends CommandOpMode {
         telemetry.addLine(mode.toString());
         telemetry.addLine(alliance.toString());
         telemetry.addLine(state.toString());
+        telemetry.addLine(String.valueOf(robot.distanceSensor.getDistance(DistanceUnit.CM)));
         telemetry.addLine(drive.getPoseEstimate().toString());
         telemetry.update();
     }

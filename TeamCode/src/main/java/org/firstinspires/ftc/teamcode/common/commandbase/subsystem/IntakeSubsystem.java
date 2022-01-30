@@ -43,7 +43,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public boolean hasFreight() {
-        return distanceSensor.getDistance(DistanceUnit.CM) < 5.1;
+        return distanceSensor.getDistance(DistanceUnit.CM) < 10;
     }
 
     public double getCurrentDrawA(){
