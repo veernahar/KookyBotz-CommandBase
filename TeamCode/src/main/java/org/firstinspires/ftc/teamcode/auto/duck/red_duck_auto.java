@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.auto.opmode;
+package org.firstinspires.ftc.teamcode.auto.duck;
 
 import static java.lang.Math.toRadians;
 
@@ -15,7 +15,6 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drivecommand.FollowTrajectoryCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.drivecommand.MoveForwardUntilIntakeCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.duckcommand.DuckOffCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.duckcommand.DuckRedCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.IntakeAndExtendCommand;

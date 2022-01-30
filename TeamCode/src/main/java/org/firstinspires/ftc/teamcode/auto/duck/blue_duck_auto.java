@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.auto.opmode;
+package org.firstinspires.ftc.teamcode.auto.duck;
 
 import static java.lang.Math.toRadians;
 
@@ -7,6 +7,7 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -14,7 +15,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drivecommand.FollowTrajectoryCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.drivecommand.MoveForwardUntilIntakeCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.duckcommand.DuckBlueCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.duckcommand.DuckOffCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.IntakeAndExtendCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.IntakeAndExtendLowCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.IntakeAndExtendMidCommand;
@@ -28,30 +30,17 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
 @Autonomous
-public class blue_cycle_auto extends OpMode {
+public class blue_duck_auto extends OpMode {
     private Robot robot;
     private AutonomousDrivetrain autonomousDrivetrain;
     private BarcodePipeline pipeline;
-    private FtcDashboard dashboard;
 
-    private TrajectorySequence preload, pickup, drop;
+    private TrajectorySequence preload, duck, park;
 
-    Pose2d CYCLE_START = new Pose2d(12, 62, toRadians(90));
-    Pose2d CYCLE_DEPOSIT = new Pose2d(10, 56, toRadians(55));
-    Pose2d[] GAP = new Pose2d[]{
-            new Pose2d(12, 65, toRadians(0)),
-            new Pose2d(12, 65, toRadians(0)),
-            new Pose2d(12, 64.25, toRadians(0)),
-            new Pose2d(12, 64.25, toRadians(0)),
-            new Pose2d(12, 64.25, toRadians(0))
-    };
-    Pose2d[] CYCLE_COLLECT = new Pose2d[]{
-            new Pose2d(36, 66, toRadians(0)),
-            new Pose2d(36, 66, toRadians(0)),
-            new Pose2d(36, 64.25, toRadians(0)),
-            new Pose2d(36, 64.25, toRadians(0)),
-            new Pose2d(36, 64.25, toRadians(0)),
-    };
+    Pose2d CYCLE_START = new Pose2d(-34, 62, toRadians(90));
+    Pose2d CYCLE_DEPOSIT = new Pose2d(-30, 56, toRadians(115));
+    Pose2d DUCK = new Pose2d(-60, 54, toRadians(90));
+    Pose2d PARK = new Pose2d(-60, 40, toRadians(90));
 
     @Override
     public void init() {
@@ -59,7 +48,7 @@ public class blue_cycle_auto extends OpMode {
         autonomousDrivetrain = new AutonomousDrivetrain(hardwareMap, Math.toRadians(90));
         autonomousDrivetrain.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        dashboard = FtcDashboard.getInstance();
+        FtcDashboard dashboard = FtcDashboard.getInstance();
 
         robot.lift.intake();
         robot.arm.intake();
@@ -88,22 +77,17 @@ public class blue_cycle_auto extends OpMode {
         autonomousDrivetrain.getLocalizer().setPoseEstimate(CYCLE_START);
 
         preload = autonomousDrivetrain.trajectorySequenceBuilder(CYCLE_START)
-                .setReversed(false)
+                .setReversed(true)
                 .lineToLinearHeading(CYCLE_DEPOSIT)
-                .waitSeconds(1.5)
                 .build();
 
-        pickup = autonomousDrivetrain.trajectorySequenceBuilder(CYCLE_DEPOSIT)
-                .lineToSplineHeading(GAP[0])
-                .lineTo(CYCLE_COLLECT[0].vec())
+        duck = autonomousDrivetrain.trajectorySequenceBuilder(CYCLE_DEPOSIT)
+                .lineToLinearHeading(DUCK)
+                .forward(2)
                 .build();
 
-        drop = autonomousDrivetrain.trajectorySequenceBuilder(CYCLE_DEPOSIT)
-                .lineToSplineHeading(GAP[1])
-                .lineTo(CYCLE_COLLECT[1].vec())
-
-                .lineTo(GAP[2].vec())
-                .lineToSplineHeading(CYCLE_DEPOSIT)
+        park = autonomousDrivetrain.trajectorySequenceBuilder(DUCK)
+                .lineToLinearHeading(PARK)
                 .build();
     }
 
@@ -115,25 +99,18 @@ public class blue_cycle_auto extends OpMode {
 
         CommandScheduler.getInstance().schedule(
                 new SequentialCommandGroup(
+
                         new FollowTrajectoryCommand(autonomousDrivetrain, preload).alongWith(preload(position)),
+                        new InstantCommand(robot.intake::stop),
 
-                        //cycle 1
-                        new FollowTrajectoryCommand(autonomousDrivetrain, pickup),
-                        new MoveForwardUntilIntakeCommand(autonomousDrivetrain, robot.intake, 0.5),
-                        new IntakeAndExtendCommand(robot.dump, robot.lift, robot.arm, robot.intake)
-                                .alongWith(new FollowTrajectoryCommand(autonomousDrivetrain, generateDrop())),
-                        new OuttakeAndResetCommand(robot.dump, robot.lift, robot.arm, robot.intake),
-                        new WaitCommand(500),
-
-                        //cycle 2
-                        new FollowTrajectoryCommand(autonomousDrivetrain, pickup),
-                        new MoveForwardUntilIntakeCommand(autonomousDrivetrain, robot.intake, 0.5),
-                        new IntakeAndExtendCommand(robot.dump, robot.lift, robot.arm, robot.intake)
-                                .alongWith(new FollowTrajectoryCommand(autonomousDrivetrain, generateDrop())),
-                        new OuttakeAndResetCommand(robot.dump, robot.lift, robot.arm, robot.intake),
+                        //duck
+                        new FollowTrajectoryCommand(autonomousDrivetrain, duck),
+                        new DuckBlueCommand(robot.ducc),
+                        new WaitCommand(4000),
+                        new DuckOffCommand(robot.ducc),
 
                         //park
-                        new FollowTrajectoryCommand(autonomousDrivetrain, pickup)
+                        new FollowTrajectoryCommand(autonomousDrivetrain, park)
                 )
 
 
@@ -163,13 +140,6 @@ public class blue_cycle_auto extends OpMode {
                 );
 
         }
-    }
-
-    public TrajectorySequence generateDrop() {
-        return autonomousDrivetrain.trajectorySequenceBuilder(autonomousDrivetrain.getPoseEstimate())
-                .lineToSplineHeading(GAP[2])
-                .lineToSplineHeading(CYCLE_DEPOSIT)
-                .build();
     }
 
     @Override
