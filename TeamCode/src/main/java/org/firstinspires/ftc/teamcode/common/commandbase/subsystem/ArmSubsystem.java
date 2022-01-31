@@ -20,8 +20,8 @@ public class ArmSubsystem extends SubsystemBase {
     public static double leftArmOuttakePosition = 0.61;
     public static double rightArmOuttakePosition = 0.31;
 
-    public static double leftArmMidPosition = 0.82;
-    public static double rightArmMidPosition = 0.1;
+    public static double leftArmMidPosition = 0.8;
+    public static double rightArmMidPosition = 0.12;
 
     public static double leftArmLowPosition = 0.88;
     public static double rightArmLowPosition = 0.04;

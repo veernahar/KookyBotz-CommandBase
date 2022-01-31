@@ -40,7 +40,7 @@ public class blue_duck_auto extends OpMode {
     Pose2d CYCLE_START = new Pose2d(-34, 62, toRadians(90));
     Pose2d CYCLE_DEPOSIT = new Pose2d(-30, 56, toRadians(115));
     Pose2d DUCK = new Pose2d(-60, 54, toRadians(90));
-    Pose2d PARK = new Pose2d(-60, 40, toRadians(90));
+    Pose2d PARK = new Pose2d(-60, 37, toRadians(90));
 
     @Override
     public void init() {
