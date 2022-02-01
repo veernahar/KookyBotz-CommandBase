@@ -38,6 +38,8 @@ public class teleop extends CommandOpMode {
     private ElapsedTime timer;
     private boolean flag;
 
+    private boolean working = true;
+
     @Override
     public void initialize() {
         robot = new Robot(hardwareMap);
@@ -58,6 +60,9 @@ public class teleop extends CommandOpMode {
 
         GamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(robot.intake::toggle);
 
+        GamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(robot::up).whenReleased(robot::down);
+
+
         GamepadEx2.getGamepadButton(GamepadKeys.Button.A).whenPressed(
                 () -> {
                     if (state == STATE.REST) {
@@ -77,10 +82,17 @@ public class teleop extends CommandOpMode {
                 }
         );
 
+        GamepadEx2.getGamepadButton(GamepadKeys.Button.B).whenPressed(() -> {
+            schedule(extend());
+            state = state.next();
+            schedule(new WaitCommand(500).andThen(new InstantCommand(() -> GamepadEx1.gamepad.rumble(500))));
+
+        });
+
         GamepadEx2.getGamepadButton(GamepadKeys.Button.Y).whenPressed(new ResetCommand(robot.dump, robot.lift, robot.arm, robot.intake, robot.turret, this));
 
-        GamepadEx2.getGamepadButton(GamepadKeys.Button.X).whenPressed(robot::up).whenReleased(robot::down);
-      }
+        GamepadEx2.getGamepadButton(GamepadKeys.Button.X).whenPressed(() -> working = !working);
+    }
 
     @Override
     public void run() {
@@ -117,7 +129,7 @@ public class teleop extends CommandOpMode {
         }
 
 
-        if (robot.intake.hasFreight() && state == STATE.INTAKE) {
+        if (robot.intake.hasFreight() && state == STATE.INTAKE && working) {
             System.out.println("has stuff");
             schedule(extend());
             state = state.next();
