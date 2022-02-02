@@ -83,10 +83,11 @@ public class teleop extends CommandOpMode {
         );
 
         GamepadEx2.getGamepadButton(GamepadKeys.Button.B).whenPressed(() -> {
-            schedule(extend());
-            state = state.next();
-            schedule(new WaitCommand(500).andThen(new InstantCommand(() -> GamepadEx1.gamepad.rumble(500))));
-
+            if(state == STATE.INTAKE){
+                schedule(extend());
+                state = state.next();
+                schedule(new WaitCommand(500).andThen(new InstantCommand(() -> GamepadEx1.gamepad.rumble(500))));
+            }
         });
 
         GamepadEx2.getGamepadButton(GamepadKeys.Button.Y).whenPressed(new ResetCommand(robot.dump, robot.lift, robot.arm, robot.intake, robot.turret, this));
@@ -106,6 +107,11 @@ public class teleop extends CommandOpMode {
             GamepadEx1.gamepad.rumble(1000);
             GamepadEx2.gamepad.rumble(1000);
             flag = true;
+        }
+
+        if(timer.seconds() > 120){
+            GamepadEx1.gamepad.rumble(100);
+            GamepadEx2.gamepad.rumble(100);
         }
 
         // drive lol
