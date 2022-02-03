@@ -14,6 +14,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.duckcommand.DuckFastBlueCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.duckcommand.DuckFastRedCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.IntakeAndExtendCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.IntakeAndExtendSharedCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.IntakeAndExtendSharedOppositeCommand;
@@ -93,6 +95,8 @@ public class teleop extends CommandOpMode {
         GamepadEx2.getGamepadButton(GamepadKeys.Button.Y).whenPressed(new ResetCommand(robot.dump, robot.lift, robot.arm, robot.intake, robot.turret, this));
 
         GamepadEx2.getGamepadButton(GamepadKeys.Button.X).whenPressed(() -> working = !working);
+
+        GamepadEx2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(alliance == ALLIANCE.RED ? new DuckFastRedCommand(robot.ducc):new DuckFastBlueCommand(robot.ducc));
     }
 
     @Override
