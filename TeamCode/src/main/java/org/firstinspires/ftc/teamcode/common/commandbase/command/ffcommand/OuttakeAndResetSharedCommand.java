@@ -31,7 +31,7 @@ public class OuttakeAndResetSharedCommand extends SequentialCommandGroup {
                 new DumpIntakeCommand(dump),
                 new WaitCommand(500),
                 new ArmIntakeCommand(arm),
-                new WaitCommand(1500),
+                new WaitCommand(750),
                 new IntakeStartCommand(intake)
         );
     }

@@ -55,6 +55,7 @@ public class teleop extends CommandOpMode {
         robot.dump.open();
         robot.turret.intake();
         robot.intake.start();
+        robot.initLiftUp();
 
         GamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(alliance == ALLIANCE.RED ? robot.ducc::red : robot.ducc::blue).whenReleased(robot.ducc::off);
 

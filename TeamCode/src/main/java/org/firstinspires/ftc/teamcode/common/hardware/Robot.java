@@ -89,4 +89,8 @@ public class Robot {
         odo.setPosition(down);
         arm.intake();
     }
+
+    public void initLiftUp(){
+        odo.setPosition(down);
+    }
 }
