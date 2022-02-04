@@ -147,4 +147,11 @@ public class blue_duck_auto extends OpMode {
         CommandScheduler.getInstance().run();
         autonomousDrivetrain.update();
     }
+
+    @Override
+    public void stop(){
+        CommandScheduler.getInstance().reset();
+        robot.webcam.stopStreaming();
+        robot.webcam.closeCameraDevice();
+    }
 }

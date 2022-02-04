@@ -186,4 +186,11 @@ public class red_duck_auto_cursed extends OpMode {
         CommandScheduler.getInstance().run();
         autonomousDrivetrain.update();
     }
+
+    @Override
+    public void stop(){
+        CommandScheduler.getInstance().reset();
+        robot.webcam.stopStreaming();
+        robot.webcam.closeCameraDevice();
+    }
 }

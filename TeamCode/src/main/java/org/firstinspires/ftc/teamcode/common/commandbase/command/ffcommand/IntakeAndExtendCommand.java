@@ -17,8 +17,8 @@ public class IntakeAndExtendCommand extends SequentialCommandGroup {
         super(
                 new WaitCommand(150),
                 new DumpCloseCommand(dump),
-                new WaitCommand(250),
                 new IntakeStopCommand(intake),
+                new WaitCommand(250),
                 new ArmOuttakeCommand(arm),
                 new WaitCommand(250),
                 new LiftExtendCommand(lift)

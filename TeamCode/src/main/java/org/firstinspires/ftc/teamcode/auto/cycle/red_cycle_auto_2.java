@@ -218,4 +218,11 @@ public class red_cycle_auto_2 extends OpMode {
         CommandScheduler.getInstance().run();
         autonomousDrivetrain.update();
     }
+
+    @Override
+    public void stop(){
+        CommandScheduler.getInstance().reset();
+        robot.webcam.stopStreaming();
+        robot.webcam.closeCameraDevice();
+    }
 }
