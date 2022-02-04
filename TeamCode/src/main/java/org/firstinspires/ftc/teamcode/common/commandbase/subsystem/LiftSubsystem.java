@@ -16,10 +16,10 @@ public class LiftSubsystem extends SubsystemBase {
     private final MotorEx leftMotor;
     private final MotorEx rightMotor;
 
-    public static int min = 0;
+    public static int min = -5;
     public static int max = 1550;
 
-    public static int intakePos = 0;
+    public static int intakePos = -5;
     public static int outtakePos = 1525;
 
     public int current = 0;
@@ -46,11 +46,11 @@ public class LiftSubsystem extends SubsystemBase {
 
     public void normalize() {
         leftMotor.motorEx.setTargetPosition(current);
-        leftMotor.motorEx.setTargetPositionTolerance(25);
+        leftMotor.motorEx.setTargetPositionTolerance(10);
         leftMotor.motorEx.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         leftMotor.motorEx.setPower(1);
         rightMotor.motorEx.setTargetPosition(current);
-        rightMotor.motorEx.setTargetPositionTolerance(25);
+        rightMotor.motorEx.setTargetPositionTolerance(10);
         rightMotor.motorEx.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         rightMotor.motorEx.setPower(1);
     }

@@ -24,11 +24,11 @@ public class IntakeAndExtendSharedCommand extends SequentialCommandGroup {
                     new DumpCloseCommand(dump),
                     new IntakeStopCommand(intake),
                     new WaitCommand(250),
-                    new ArmOuttakeCommand(arm),
+                    new ArmSharedCommand(arm),
                     new WaitCommand(500),
-                    new TurretOuttakeRedCommand(turret),
-                    new WaitCommand(500),
-                    new ArmSharedCommand(arm)
+                    new TurretOuttakeRedCommand(turret)
+//                    new WaitCommand(500),
+//                    new ArmSharedCommand(arm)
             );
         } else {
             addCommands(
@@ -36,11 +36,11 @@ public class IntakeAndExtendSharedCommand extends SequentialCommandGroup {
                     new DumpCloseCommand(dump),
                     new IntakeStopCommand(intake),
                     new WaitCommand(250),
-                    new ArmOuttakeCommand(arm),
+                    new ArmSharedCommand(arm),
                     new WaitCommand(500),
-                    new TurretOuttakeBlueCommand(turret),
-                    new WaitCommand(500),
-                    new ArmSharedCommand(arm)
+                    new TurretOuttakeBlueCommand(turret)
+//                    new WaitCommand(500),
+//                    new ArmSharedCommand(arm)
             );
         }
     }

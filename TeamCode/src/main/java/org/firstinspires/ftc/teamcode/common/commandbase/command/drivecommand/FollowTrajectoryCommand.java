@@ -11,8 +11,8 @@ public class FollowTrajectoryCommand extends CommandBase {
     private AutonomousDrivetrain drive;
     private TrajectorySequence traj;
 
-    public FollowTrajectoryCommand(AutonomousDrivetrain rrMecanumDrive, TrajectorySequence trajectorySequence) {
-        drive = rrMecanumDrive;
+    public FollowTrajectoryCommand(AutonomousDrivetrain autonomousDrivetrain, TrajectorySequence trajectorySequence) {
+        drive = autonomousDrivetrain;
         traj = trajectorySequence;
     }
 
@@ -24,7 +24,6 @@ public class FollowTrajectoryCommand extends CommandBase {
     @Override
     public void execute() {
         drive.update();
-        System.out.println("update");
     }
 
     @Override
@@ -40,3 +39,5 @@ public class FollowTrajectoryCommand extends CommandBase {
         }
     }
 }
+
+

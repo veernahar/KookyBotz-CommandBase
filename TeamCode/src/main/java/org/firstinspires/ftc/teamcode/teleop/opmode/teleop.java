@@ -121,12 +121,12 @@ public class teleop extends CommandOpMode {
 
         // drive lol
 
-        if (GamepadEx2.getLeftX() != 0 || GamepadEx2.getLeftY() != 0 || GamepadEx2.getRightX() != 0) {
+        if (Math.abs(GamepadEx2.getLeftX()) > 0.001 || Math.abs(GamepadEx2.getLeftY()) > 0.001 || Math.abs(GamepadEx2.getRightX()) > 0.001) {
             drive.setWeightedDrivePower(
                     new Pose2d(
-                            dead(scale(GamepadEx2.getLeftY(), 0.6) / 2.0, 0.05),
-                            dead(-scale(GamepadEx2.getLeftX(), 0.6) / 2.0, 0.05),
-                            -scale(GamepadEx2.getRightX(), 0.6) / 2.0
+                            dead(scale(GamepadEx2.getLeftY(), 0.6) * (gamepad2.right_trigger > 0.5 ? 1 : 0.5), 0),
+                            dead(-scale(GamepadEx2.getLeftX(), 0.6) * (gamepad2.right_trigger > 0.5 ? 1 : 0.5), 0),
+                            -scale(GamepadEx2.getRightX(), 0.6) * (gamepad2.right_trigger > 0.5 ? 1 : 0.5)
                     )
             );
         } else {
@@ -144,7 +144,7 @@ public class teleop extends CommandOpMode {
             System.out.println("has stuff");
             schedule(extend());
             state = state.next();
-            schedule(new WaitCommand(500).andThen(new InstantCommand(() -> GamepadEx1.gamepad.rumble(500))));
+            //schedule(new WaitCommand(500).andThen(new InstantCommand(() -> GamepadEx1.gamepad.rumble(500))));
         }
 
         if ((mode == MODE.SHARED || mode == MODE.SHARED_OPPOSITE) && state == STATE.REST) {

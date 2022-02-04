@@ -46,6 +46,9 @@ public class Robot {
         leftSlide.motorEx.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightSlide.motorEx.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+        leftSlide.motorEx.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightSlide.motorEx.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         lift = new LiftSubsystem(leftSlide, rightSlide);
 
         Servo leftArm = hardwareMap.get(Servo.class, "arm1");
