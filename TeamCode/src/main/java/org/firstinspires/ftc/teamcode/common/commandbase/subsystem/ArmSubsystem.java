@@ -11,23 +11,23 @@ public class ArmSubsystem extends SubsystemBase {
     private final Servo leftArmServo;
     private final Servo rightArmServo;
 
-    public static double leftArmIntakePosition = 0.14;
-    public static double rightArmIntakePosition = 0.78;
+    public static double leftArmIntakePosition = 0.14-0.10;
+    public static double rightArmIntakePosition = 0.78+0.165;
 
-    public static double leftArmRestPosition = 0.3;
-    public static double rightArmRestPosition = 0.62;
+    public static double leftArmRestPosition = 0.3-0.10;
+    public static double rightArmRestPosition = 0.62+0.165;
 
-    public static double leftArmOuttakePosition = 0.61;
-    public static double rightArmOuttakePosition = 0.31;
+    public static double leftArmOuttakePosition = 0.61-0.10;
+    public static double rightArmOuttakePosition = 0.31+0.165;
 
-    public static double leftArmMidPosition = 0.8;
-    public static double rightArmMidPosition = 0.12;
+    public static double leftArmMidPosition = 0.80-0.10;
+    public static double rightArmMidPosition = 0.12+0.165;
 
-    public static double leftArmLowPosition = 0.88;
-    public static double rightArmLowPosition = 0.04;
+    public static double leftArmLowPosition = 0.88-0.10;
+    public static double rightArmLowPosition = 0.04+0.165;
 
-    public static double leftArmSharedPosition = 0.84;
-    public static double rightArmSharedPosition = 0.07;
+    public static double leftArmSharedPosition = 0.84-0.10;
+    public static double rightArmSharedPosition = 0.07+0.165;
 
 
     public ArmSubsystem(Servo leftArmServo, Servo rightArmServo) {

@@ -65,6 +65,7 @@ public class blue_duck_auto_cursed extends OpMode {
         robot.arm.intake();
         robot.dump.intake();
         robot.turret.intake();
+        robot.initLiftUp();
 
         robot.webcam.setPipeline(pipeline = new BarcodePipeline());
 
@@ -190,7 +191,6 @@ public class blue_duck_auto_cursed extends OpMode {
     @Override
     public void stop(){
         CommandScheduler.getInstance().reset();
-        robot.webcam.stopStreaming();
         robot.webcam.closeCameraDevice();
     }
 }

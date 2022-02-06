@@ -23,7 +23,7 @@ public class IntakeAndExtendMidCommand extends SequentialCommandGroup {
                 new WaitCommand(250),
                 new ArmMidCommand(arm),
                 new WaitCommand(250),
-                new LiftSetPosCommand(lift, 1200)
+                new LiftSetPosCommand(lift, 1100)
         );
     }
 }

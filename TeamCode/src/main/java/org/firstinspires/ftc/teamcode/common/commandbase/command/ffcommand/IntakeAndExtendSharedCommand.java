@@ -25,7 +25,7 @@ public class IntakeAndExtendSharedCommand extends SequentialCommandGroup {
                     new IntakeStopCommand(intake),
                     new WaitCommand(250),
                     new ArmSharedCommand(arm),
-                    new WaitCommand(500),
+                    new WaitCommand(400),
                     new TurretOuttakeRedCommand(turret)
 //                    new WaitCommand(500),
 //                    new ArmSharedCommand(arm)
@@ -37,7 +37,7 @@ public class IntakeAndExtendSharedCommand extends SequentialCommandGroup {
                     new IntakeStopCommand(intake),
                     new WaitCommand(250),
                     new ArmSharedCommand(arm),
-                    new WaitCommand(500),
+                    new WaitCommand(400),
                     new TurretOuttakeBlueCommand(turret)
 //                    new WaitCommand(500),
 //                    new ArmSharedCommand(arm)
