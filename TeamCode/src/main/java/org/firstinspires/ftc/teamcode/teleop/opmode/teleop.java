@@ -34,7 +34,7 @@ public class teleop extends CommandOpMode {
     private AutonomousDrivetrain drive;
     private GamepadEx GamepadEx1, GamepadEx2;
     public STATE state = STATE.INTAKE;
-    private MODE mode = MODE.SPECIFIC;
+    private MODE mode = MODE.SHARED;
     public ALLIANCE alliance;
 
     private ElapsedTime timer;
@@ -124,16 +124,16 @@ public class teleop extends CommandOpMode {
         if (Math.abs(GamepadEx2.getLeftX()) > 0.001 || Math.abs(GamepadEx2.getLeftY()) > 0.001 || Math.abs(GamepadEx2.getRightX()) > 0.001) {
             drive.setWeightedDrivePower(
                     new Pose2d(
-                            dead(scale(GamepadEx2.getLeftY(), 0.6) * (gamepad2.right_trigger > 0.5 ? 1 : 0.5), 0),
-                            dead(-scale(GamepadEx2.getLeftX(), 0.6) * (gamepad2.right_trigger > 0.5 ? 1 : 0.5), 0),
-                            -scale(GamepadEx2.getRightX(), 0.6) * (gamepad2.right_trigger > 0.5 ? 1 : 0.5)
+                            dead(scale(GamepadEx2.getLeftY(), 0.6), 0),
+                            dead(-scale(GamepadEx2.getLeftX(), 0.6), 0),
+                            -scale(GamepadEx2.getRightX(), 0.6)*0.85
                     )
             );
         } else {
             drive.setWeightedDrivePower(
                     new Pose2d(
-                            scale(GamepadEx1.getLeftY(), 0.6) * (gamepad1.right_trigger > 0.5 ? 1 : 0.66),
-                            -scale(GamepadEx1.getLeftX(), 0.6) * (gamepad1.right_trigger > 0.5 ? 1 : 0.66),
+                            scale(GamepadEx1.getLeftY(), 0.6) * (gamepad1.right_trigger > 0.5 ? 1 : 0.66) * (gamepad1.right_bumper ? 0.5 : 1),
+                            -scale(GamepadEx1.getLeftX(), 0.6) * (gamepad1.right_trigger > 0.5 ? 1 : 0.66) * (gamepad1.right_bumper ? 0.5 : 1),
                             -scale(GamepadEx1.getRightX(), 0.6) * (gamepad1.right_trigger > 0.5 ? 1 : 0.66)
                     )
             );

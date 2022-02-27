@@ -10,6 +10,7 @@ public class DumpSubsystem extends SubsystemBase {
     private final Servo gateServo;
 
     public static double intakePosition = 0.9;
+    public static double foldPosition = 0.95;
     public static double outtakePosition = 0.6;
     public static double sharedPosition = 0.8;
 
@@ -23,6 +24,10 @@ public class DumpSubsystem extends SubsystemBase {
 
     public void intake() {
         outtakeServo.setPosition(intakePosition);
+    }
+
+    public void fold(){
+        outtakeServo.setPosition(foldPosition);
     }
 
     public void outtake() {

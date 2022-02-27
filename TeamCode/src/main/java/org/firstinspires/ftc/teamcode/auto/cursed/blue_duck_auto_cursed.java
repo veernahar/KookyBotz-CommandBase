@@ -11,8 +11,8 @@ import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
-import com.qualcomm.hardware.rev.RevTouchSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -20,8 +20,8 @@ import org.firstinspires.ftc.teamcode.common.commandbase.command.drivecommand.Fo
 import org.firstinspires.ftc.teamcode.common.commandbase.command.duckcommand.DuckOffCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.duckcommand.DuckRedCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.IntakeAndExtendCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.IntakeAndExtendLowCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.IntakeAndExtendMidCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.auto.IntakeAndExtendLowCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.auto.IntakeAndExtendMidCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.OuttakeAndResetCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.OuttakeAndResetMidLowCommand;
 import org.firstinspires.ftc.teamcode.common.ff.vision.BarcodePipeline;
@@ -32,6 +32,7 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
 @Autonomous
+@Disabled
 public class blue_duck_auto_cursed extends OpMode {
     private Robot robot;
     private AutonomousDrivetrain autonomousDrivetrain;

@@ -18,8 +18,8 @@ import org.firstinspires.ftc.teamcode.common.commandbase.command.drivecommand.Fo
 import org.firstinspires.ftc.teamcode.common.commandbase.command.duckcommand.DuckOffCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.duckcommand.DuckRedCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.IntakeAndExtendCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.IntakeAndExtendLowCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.IntakeAndExtendMidCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.auto.IntakeAndExtendLowCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.auto.IntakeAndExtendMidCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.OuttakeAndResetCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.OuttakeAndResetMidLowCommand;
 import org.firstinspires.ftc.teamcode.common.ff.vision.BarcodePipeline;
@@ -101,6 +101,7 @@ public class red_duck_auto extends OpMode {
 
         CommandScheduler.getInstance().schedule(
                 new SequentialCommandGroup(
+                        new WaitCommand(2000),
 
                         new FollowTrajectoryCommand(autonomousDrivetrain, preload).alongWith(preload(position)),
                         new InstantCommand(robot.intake::stop),
