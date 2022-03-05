@@ -29,9 +29,8 @@ public class OuttakeAndResetSharedCommand extends SequentialCommandGroup {
                 new ArmIntakeCommand(arm),
                 new WaitCommand(50),
                 new LiftRetractCommand(lift).alongWith(new TurretIntakeCommand(turret)),
-                new WaitCommand(500),
+                new WaitCommand(400),
                 new DumpIntakeCommand(dump),
-                new WaitCommand(250),
                 new IntakeStartCommand(intake)
         );
     }

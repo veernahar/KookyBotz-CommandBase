@@ -34,29 +34,29 @@ public class red_cycle_auto_3 extends OpMode {
 
     public static Pose2d CYCLE_START = new Pose2d(12, -62, toRadians(-90));
     public static Pose2d[] CYCLE_DEPOSIT = new Pose2d[]{
-            new Pose2d(5, -55, toRadians(-60)),
-            new Pose2d(3.5, -55, toRadians(-60)),
-            new Pose2d(2, -55, toRadians(-60)),
-            new Pose2d(.5, -55, toRadians(-60)),
-            new Pose2d(-1, -55, toRadians(-60)),
-            new Pose2d(-2.5, -55, toRadians(-60)),
+            new Pose2d(6, -52, toRadians(-60)),
+            new Pose2d(5, -52, toRadians(-60)),
+            new Pose2d(4, -52, toRadians(-60)),
+            new Pose2d(3, -52, toRadians(-60)),
+            new Pose2d(2, -52, toRadians(-60)),
+            new Pose2d(1, -52, toRadians(-60)),
     };
 
     public static Pose2d[] GAP = new Pose2d[]{
-            new Pose2d(20, -64, toRadians(0)),
-            new Pose2d(20, -63, toRadians(0)),
-            new Pose2d(20, -64, toRadians(0)),
-            new Pose2d(20, -64, toRadians(0)),
             new Pose2d(20, -65, toRadians(0)),
-            new Pose2d(20, -66, toRadians(0))
+            new Pose2d(20, -65, toRadians(0)),
+            new Pose2d(20, -65, toRadians(0)),
+            new Pose2d(20, -65, toRadians(0)),
+            new Pose2d(20, -65, toRadians(0)),
+            new Pose2d(20, -65, toRadians(0))
     };
     public static Pose2d[] CYCLE_COLLECT = new Pose2d[]{
-            new Pose2d(34, -64, toRadians(0)),
-            new Pose2d(36.5, -63, toRadians(0)),
-            new Pose2d(37, -64, toRadians(0)),
-            new Pose2d(37.5, -64, toRadians(0)),
+            new Pose2d(36, -65, toRadians(0)),
+            new Pose2d(36.5, -65, toRadians(0)),
+            new Pose2d(37, -65, toRadians(0)),
+            new Pose2d(37.5, -65, toRadians(0)),
             new Pose2d(38, -65, toRadians(0)),
-            new Pose2d(38.5, -66, toRadians(0))
+            new Pose2d(38.5, -65, toRadians(0))
     };
 
     Pose2d PARK = new Pose2d(36, -66, toRadians(0));
@@ -190,14 +190,45 @@ public class red_cycle_auto_3 extends OpMode {
                                 )
                         ),
 
+                        //pickup, delay start intake
+                        new FollowTrajectoryCommand(autonomousDrivetrain, pickup3)
+                                .alongWith(new WaitCommand(1250).andThen(new InstantCommand(robot.intake::start))),
 
+                        //extend and delay deposit
+                        new FollowTrajectoryCommand(autonomousDrivetrain, drop3).alongWith(
+                                new IntakeAndExtendHighCommand(robot.dump, robot.lift, robot.arm, robot.intake).andThen(
+                                        new WaitCommand(1000).andThen(
+                                                new OuttakeAndResetAutoCommand(robot.dump, robot.lift, robot.arm, robot.intake)
+                                        )
+                                )
+                        ),
 
-                        new FollowTrajectoryCommand(autonomousDrivetrain, pickup3),
-                        new FollowTrajectoryCommand(autonomousDrivetrain, drop3),
-                        new FollowTrajectoryCommand(autonomousDrivetrain, pickup4),
-                        new FollowTrajectoryCommand(autonomousDrivetrain, drop4),
-                        new FollowTrajectoryCommand(autonomousDrivetrain, pickup5),
-                        new FollowTrajectoryCommand(autonomousDrivetrain, drop5),
+                        //pickup, delay start intake
+                        new FollowTrajectoryCommand(autonomousDrivetrain, pickup4)
+                                .alongWith(new WaitCommand(1250).andThen(new InstantCommand(robot.intake::start))),
+
+                        //extend and delay deposit
+                        new FollowTrajectoryCommand(autonomousDrivetrain, drop4).alongWith(
+                                new IntakeAndExtendHighCommand(robot.dump, robot.lift, robot.arm, robot.intake).andThen(
+                                        new WaitCommand(1000).andThen(
+                                                new OuttakeAndResetAutoCommand(robot.dump, robot.lift, robot.arm, robot.intake)
+                                        )
+                                )
+                        ),
+
+                        //pickup, delay start intake
+                        new FollowTrajectoryCommand(autonomousDrivetrain, pickup5)
+                                .alongWith(new WaitCommand(1250).andThen(new InstantCommand(robot.intake::start))),
+
+                        //extend and delay deposit
+                        new FollowTrajectoryCommand(autonomousDrivetrain, drop5).alongWith(
+                                new IntakeAndExtendHighCommand(robot.dump, robot.lift, robot.arm, robot.intake).andThen(
+                                        new WaitCommand(1000).andThen(
+                                                new OuttakeAndResetAutoCommand(robot.dump, robot.lift, robot.arm, robot.intake)
+                                        )
+                                )
+                        ),
+
                         new FollowTrajectoryCommand(autonomousDrivetrain, park)
                 )
         );

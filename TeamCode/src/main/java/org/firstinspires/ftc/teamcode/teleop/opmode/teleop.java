@@ -108,7 +108,7 @@ public class teleop extends CommandOpMode {
             timer = new ElapsedTime();
         }
 
-        if (timer.seconds() > (120 - 35) && !flag) {
+        if (timer.seconds() > (120 - 30) && !flag) {
             GamepadEx1.gamepad.rumble(1000);
             GamepadEx2.gamepad.rumble(1000);
             flag = true;

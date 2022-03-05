@@ -30,10 +30,10 @@ public class TurretSubsystem extends SubsystemBase {
     }
 
     public void left() {
-        turretServo.setPosition(turretServo.getPosition() + 0.01);
+        turretServo.setPosition(turretServo.getPosition() + 0.02);
     }
 
     public void right() {
-        turretServo.setPosition(turretServo.getPosition() - 0.01);
+        turretServo.setPosition(turretServo.getPosition() - 0.02);
     }
 }
