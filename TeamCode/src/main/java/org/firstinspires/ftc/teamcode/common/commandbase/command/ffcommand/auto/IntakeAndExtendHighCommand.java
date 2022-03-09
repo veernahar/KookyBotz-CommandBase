@@ -22,7 +22,7 @@ public class IntakeAndExtendHighCommand extends SequentialCommandGroup {
                 new WaitCommand(250),
                 new ArmOuttakeCommand(arm),
                 new WaitCommand(250),
-                new LiftSetPosCommand(lift, 1200)
+                new LiftSetPosCommand(lift, 1000)
         );
     }
 }

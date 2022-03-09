@@ -37,29 +37,29 @@ public class red_cycle_auto_3 extends OpMode {
             new Pose2d(6, -52, toRadians(-60)),
             new Pose2d(5, -52, toRadians(-60)),
             new Pose2d(4, -52, toRadians(-60)),
-            new Pose2d(3, -52, toRadians(-60)),
             new Pose2d(2, -52, toRadians(-60)),
-            new Pose2d(1, -52, toRadians(-60)),
+            new Pose2d(0, -52, toRadians(-60)),
+            new Pose2d(0, -52, toRadians(-60)),
     };
 
     public static Pose2d[] GAP = new Pose2d[]{
-            new Pose2d(20, -65, toRadians(0)),
-            new Pose2d(20, -65, toRadians(0)),
-            new Pose2d(20, -65, toRadians(0)),
-            new Pose2d(20, -65, toRadians(0)),
-            new Pose2d(20, -65, toRadians(0)),
-            new Pose2d(20, -65, toRadians(0))
+            new Pose2d(20, -63.5, toRadians(0)),
+            new Pose2d(20, -63.5, toRadians(0)),
+            new Pose2d(20, -63.5, toRadians(0)),
+            new Pose2d(20, -63.5, toRadians(0)),
+            new Pose2d(20, -63.5, toRadians(0)),
+            new Pose2d(20, -63.5, toRadians(0))
     };
     public static Pose2d[] CYCLE_COLLECT = new Pose2d[]{
-            new Pose2d(36, -65, toRadians(0)),
-            new Pose2d(36.5, -65, toRadians(0)),
-            new Pose2d(37, -65, toRadians(0)),
-            new Pose2d(37.5, -65, toRadians(0)),
-            new Pose2d(38, -65, toRadians(0)),
-            new Pose2d(38.5, -65, toRadians(0))
+            new Pose2d(36, -63.5, toRadians(0)),
+            new Pose2d(37.25, -63.5, toRadians(0)),
+            new Pose2d(38.5, -63.5, toRadians(0)),
+            new Pose2d(39.75, -63.5, toRadians(0)),
+            new Pose2d(41, -64, toRadians(0)),
+            new Pose2d(41.25, -64, toRadians(0))
     };
 
-    Pose2d PARK = new Pose2d(36, -66, toRadians(0));
+    Pose2d PARK = new Pose2d(36, -64, toRadians(0));
 
     @Override
     public void init() {
