@@ -16,6 +16,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drivecommand.FollowTrajectoryCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.auto.IntakeAndExtendHighCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.auto.OuttakeAndResetAutoCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.ffcommand.auto.PreloadCommand;
 import org.firstinspires.ftc.teamcode.common.ff.vision.BarcodePipeline;
 import org.firstinspires.ftc.teamcode.common.hardware.Robot;
 import org.firstinspires.ftc.teamcode.rr.AutonomousDrivetrain;
@@ -30,7 +31,7 @@ public class red_cycle_auto_3 extends OpMode {
     private BarcodePipeline pipeline;
     private FtcDashboard dashboard;
 
-    private TrajectorySequence preload, pickup1, drop1, pickup2, drop2, pickup3, drop3, pickup4, drop4, pickup5, drop5, park;
+    private TrajectorySequence preloadAndPickup, pickup1, drop1, pickup2, drop2, pickup3, drop3, pickup4, drop4, pickup5, drop5, park;
 
     public static Pose2d CYCLE_START = new Pose2d(12, -62, toRadians(-90));
     public static Pose2d[] CYCLE_DEPOSIT = new Pose2d[]{
@@ -47,16 +48,16 @@ public class red_cycle_auto_3 extends OpMode {
             new Pose2d(20, -63.5, toRadians(0)),
             new Pose2d(20, -63.5, toRadians(0)),
             new Pose2d(20, -63.5, toRadians(0)),
-            new Pose2d(20, -63.5, toRadians(0)),
-            new Pose2d(20, -63.5, toRadians(0))
+            new Pose2d(20, -64.5, toRadians(0)),
+            new Pose2d(20, -64.5, toRadians(0))
     };
     public static Pose2d[] CYCLE_COLLECT = new Pose2d[]{
             new Pose2d(36, -63.5, toRadians(0)),
             new Pose2d(37.25, -63.5, toRadians(0)),
             new Pose2d(38.5, -63.5, toRadians(0)),
             new Pose2d(39.75, -63.5, toRadians(0)),
-            new Pose2d(41, -64, toRadians(0)),
-            new Pose2d(41.25, -64, toRadians(0))
+            new Pose2d(41, -64.5, toRadians(0)),
+            new Pose2d(41.25, -64.5, toRadians(0))
     };
 
     Pose2d PARK = new Pose2d(36, -64, toRadians(0));
@@ -97,8 +98,11 @@ public class red_cycle_auto_3 extends OpMode {
 
         autonomousDrivetrain.getLocalizer().setPoseEstimate(CYCLE_START);
 
-        preload = autonomousDrivetrain.trajectorySequenceBuilder(CYCLE_START)
+        preloadAndPickup = autonomousDrivetrain.trajectorySequenceBuilder(CYCLE_START)
                 .lineToSplineHeading(CYCLE_DEPOSIT[0])
+                .waitSeconds(0.25)
+                .splineTo(GAP[0].vec(), toRadians(-10))
+                .splineTo(CYCLE_COLLECT[0].vec(), toRadians(0))
                 .build();
 
         pickup1 = autonomousDrivetrain.trajectorySequenceBuilder(CYCLE_DEPOSIT[0])
@@ -162,11 +166,10 @@ public class red_cycle_auto_3 extends OpMode {
 
         CommandScheduler.getInstance().schedule(
                 new SequentialCommandGroup(
-                        new FollowTrajectoryCommand(autonomousDrivetrain, preload),
+                        //preload and then pickup
+                        new FollowTrajectoryCommand(autonomousDrivetrain, preloadAndPickup)
+                                .alongWith(new PreloadCommand(robot.dump, robot.lift, robot.arm, robot.intake)),
 
-                        //pickup, delay start intake
-                        new FollowTrajectoryCommand(autonomousDrivetrain, pickup1)
-                                .alongWith(new WaitCommand(1250).andThen(new InstantCommand(robot.intake::start))),
 
                         //extend and delay deposit
                         new FollowTrajectoryCommand(autonomousDrivetrain, drop1).alongWith(
@@ -229,6 +232,7 @@ public class red_cycle_auto_3 extends OpMode {
                                 )
                         ),
 
+                        //park in warehouse
                         new FollowTrajectoryCommand(autonomousDrivetrain, park)
                 )
         );
