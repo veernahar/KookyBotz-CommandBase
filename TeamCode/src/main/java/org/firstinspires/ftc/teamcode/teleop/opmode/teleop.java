@@ -59,9 +59,9 @@ public class teleop extends CommandOpMode {
 
         GamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(alliance == ALLIANCE.RED ? robot.ducc::red : robot.ducc::blue).whenReleased(robot.ducc::off);
 
-        GamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(this::toggle);
+        GamepadEx2.getGamepadButton(GamepadKeys.Button.Y).whenPressed(this::toggle);
 
-        GamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(robot.intake::toggle);
+        GamepadEx2.getGamepadButton(GamepadKeys.Button.X).whenPressed(robot.intake::toggle);
 
         GamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(robot::up).whenReleased(robot::down);
 
@@ -86,18 +86,18 @@ public class teleop extends CommandOpMode {
         );
 
         GamepadEx2.getGamepadButton(GamepadKeys.Button.B).whenPressed(() -> {
-            if(state == STATE.INTAKE){
+            if (state == STATE.INTAKE) {
                 schedule(extend());
                 state = state.next();
                 schedule(new WaitCommand(500).andThen(new InstantCommand(() -> GamepadEx1.gamepad.rumble(500))));
             }
         });
 
-        GamepadEx2.getGamepadButton(GamepadKeys.Button.Y).whenPressed(new ResetCommand(robot.dump, robot.lift, robot.arm, robot.intake, robot.turret, this));
+        // GamepadEx2.getGamepadButton(GamepadKeys.Button.Y).whenPressed(new ResetCommand(robot.dump, robot.lift, robot.arm, robot.intake, robot.turret, this));
 
-        GamepadEx2.getGamepadButton(GamepadKeys.Button.X).whenPressed(() -> working = !working);
+        // GamepadEx2.getGamepadButton(GamepadKeys.Button.X).whenPressed(() -> working = !working);
 
-        GamepadEx2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(alliance == ALLIANCE.RED ? new DuckFastRedCommand(robot.ducc):new DuckFastBlueCommand(robot.ducc));
+        GamepadEx2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(alliance == ALLIANCE.RED ? new DuckFastRedCommand(robot.ducc) : new DuckFastBlueCommand(robot.ducc));
     }
 
     @Override
@@ -114,30 +114,20 @@ public class teleop extends CommandOpMode {
             flag = true;
         }
 
-        if(timer.seconds() > 120){
+        if (timer.seconds() > 120) {
             GamepadEx1.gamepad.rumble(100);
             GamepadEx2.gamepad.rumble(100);
         }
 
         // drive lol
 
-        if (Math.abs(GamepadEx2.getLeftX()) > 0.001 || Math.abs(GamepadEx2.getLeftY()) > 0.001 || Math.abs(GamepadEx2.getRightX()) > 0.001) {
-            drive.setWeightedDrivePower(
-                    new Pose2d(
-                            dead(scale(GamepadEx2.getLeftY(), 0.6), 0),
-                            dead(-scale(GamepadEx2.getLeftX(), 0.6), 0),
-                            -scale(GamepadEx2.getRightX(), 0.6)*0.85
-                    )
-            );
-        } else {
-            drive.setWeightedDrivePower(
-                    new Pose2d(
-                            scale(GamepadEx1.getLeftY(), 0.6) * (gamepad1.right_trigger > 0.5 ? 1 : 0.66) * (gamepad1.right_bumper ? 0.5 : 1),
-                            -scale(GamepadEx1.getLeftX(), 0.6) * (gamepad1.right_trigger > 0.5 ? 1 : 0.66) * (gamepad1.right_bumper ? 0.5 : 1),
-                            -scale(GamepadEx1.getRightX(), 0.6) * (gamepad1.right_trigger > 0.5 ? 1 : 0.66)
-                    )
-            );
-        }
+        drive.setWeightedDrivePower(
+                new Pose2d(
+                        dead(scale(GamepadEx2.getLeftY(), 0.6), 0),
+                        dead(-scale(GamepadEx2.getLeftX(), 0.6), 0),
+                        robot.lift.isExtended() ? -scale(GamepadEx2.getRightX(), 0.6) * 0.5 : -scale(GamepadEx2.getRightX(), 0.6)
+                )
+        );
 
 
         if (robot.intake.hasFreight() && state == STATE.INTAKE && working) {

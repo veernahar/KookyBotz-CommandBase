@@ -53,11 +53,11 @@ public class red_cycle_auto_3 extends OpMode {
     };
     public static Pose2d[] CYCLE_COLLECT = new Pose2d[]{
             new Pose2d(36, -63.5, toRadians(0)),
-            new Pose2d(37.25, -63.5, toRadians(0)),
-            new Pose2d(38.5, -63.5, toRadians(0)),
-            new Pose2d(39.75, -63.5, toRadians(0)),
-            new Pose2d(41, -64.5, toRadians(0)),
-            new Pose2d(41.25, -64.5, toRadians(0))
+            new Pose2d(37.5, -63.5, toRadians(0)),
+            new Pose2d(38.75, -63.5, toRadians(0)),
+            new Pose2d(40, -63.5, toRadians(0)),
+            new Pose2d(41.25, -64.5, toRadians(0)),
+            new Pose2d(36, -64.5, toRadians(0))
     };
 
     Pose2d PARK = new Pose2d(36, -64, toRadians(0));

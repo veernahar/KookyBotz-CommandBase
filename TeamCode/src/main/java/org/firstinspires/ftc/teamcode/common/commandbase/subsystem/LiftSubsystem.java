@@ -79,4 +79,8 @@ public class LiftSubsystem extends SubsystemBase {
             rightMotor.motorEx.setPower(0);
         }
     }
+
+    public boolean isExtended(){
+        return leftMotor.motorEx.getCurrentPosition() > 750;
+    }
 }
