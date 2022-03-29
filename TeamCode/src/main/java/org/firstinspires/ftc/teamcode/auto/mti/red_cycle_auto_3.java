@@ -76,6 +76,7 @@ public class red_cycle_auto_3 extends OpMode {
         robot.dump.intake();
         robot.turret.intake();
         robot.initLiftUp();
+        robot.cap.rest();
 
         robot.webcam.setPipeline(pipeline = new BarcodePipeline());
 

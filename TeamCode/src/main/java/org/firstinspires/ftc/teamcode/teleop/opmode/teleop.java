@@ -42,6 +42,8 @@ public class teleop extends CommandOpMode {
 
     private boolean working = true;
 
+    private CAP_STATE cap_state = CAP_STATE.START;
+
     @Override
     public void initialize() {
         robot = new Robot(hardwareMap);
@@ -98,6 +100,8 @@ public class teleop extends CommandOpMode {
         // GamepadEx2.getGamepadButton(GamepadKeys.Button.X).whenPressed(() -> working = !working);
 
         GamepadEx2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(alliance == ALLIANCE.RED ? new DuckFastRedCommand(robot.ducc) : new DuckFastBlueCommand(robot.ducc));
+
+        GamepadEx2.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(() -> cap_state = cap_state.next());
     }
 
     @Override
@@ -108,7 +112,7 @@ public class teleop extends CommandOpMode {
             timer = new ElapsedTime();
         }
 
-        if (timer.seconds() > (120 - 30) && !flag) {
+        if (timer.seconds() > (120 - 40) && !flag) {
             GamepadEx1.gamepad.rumble(1000);
             GamepadEx2.gamepad.rumble(1000);
             flag = true;
@@ -123,9 +127,9 @@ public class teleop extends CommandOpMode {
 
         drive.setWeightedDrivePower(
                 new Pose2d(
-                        dead(scale(GamepadEx2.getLeftY(), 0.6), 0),
-                        dead(-scale(GamepadEx2.getLeftX(), 0.6), 0),
-                        robot.lift.isExtended() ? -scale(GamepadEx2.getRightX(), 0.6) * 0.5 : -scale(GamepadEx2.getRightX(), 0.6)
+                        dead(scale(GamepadEx2.getLeftY(), 0.6), 0) * (gamepad2.right_trigger > 0.5 ? 0.5 : 1),
+                        dead(-scale(GamepadEx2.getLeftX(), 0.6), 0) * (gamepad2.right_trigger > 0.5 ? 0.5 : 1),
+                        (robot.lift.isExtended() ? -scale(GamepadEx2.getRightX(), 0.6) * 0.66 : -scale(GamepadEx2.getRightX(), 0.6)) * (gamepad2.right_trigger > 0.5 ? 0.3 : 1)
                 )
         );
 
@@ -155,6 +159,14 @@ public class teleop extends CommandOpMode {
 
         drive.update();
 
+        switch(cap_state){
+            case START: robot.cap.rest(); break;
+            case PICK: robot.cap.pick(); break;
+            case UP: robot.cap.up(); break;
+            case DROP: robot.cap.drop(); break;
+        }
+
+        telemetry.addLine(cap_state.toString());
         telemetry.addData("slide", robot.lift.getCurrentDrawA());
         telemetry.addData("intake", robot.intake.getCurrentDrawA());
         telemetry.addLine(mode.toString());
@@ -198,4 +210,21 @@ public class teleop extends CommandOpMode {
         }
     }
 
+}
+
+enum CAP_STATE {
+    START, PICK, UP, DROP;
+
+    public CAP_STATE next() {
+        switch (this) {
+            case START:
+                return PICK;
+            case PICK:
+                return UP;
+            case UP:
+                return DROP;
+            default:
+                return START;
+        }
+    }
 }

@@ -13,6 +13,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.ArmSubsystem;
+import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.CapSubsystem;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DuckSubsystem;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.LiftSubsystem;
@@ -30,6 +31,7 @@ public class Robot {
     public final TurretSubsystem turret;
     public final DuckSubsystem ducc;
     public final OpenCvWebcam webcam;
+    public final CapSubsystem cap;
     private final Servo odo;
     public final Rev2mDistanceSensor distanceSensor;
 
@@ -77,6 +79,9 @@ public class Robot {
         ducc = new DuckSubsystem(duckMotor);
 
         odo = hardwareMap.servo.get("odo");
+
+        Servo capServo = hardwareMap.servo.get("cap");
+        cap = new CapSubsystem(capServo);
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);

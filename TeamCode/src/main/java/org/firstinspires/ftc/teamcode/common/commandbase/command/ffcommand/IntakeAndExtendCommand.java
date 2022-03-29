@@ -20,7 +20,7 @@ public class IntakeAndExtendCommand extends SequentialCommandGroup {
                 new IntakeStopCommand(intake),
                 new WaitCommand(250),
                 new ArmOuttakeCommand(arm),
-                new WaitCommand(250),
+                new WaitCommand(450),
                 new LiftExtendCommand(lift)
         );
     }
